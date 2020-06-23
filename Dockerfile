@@ -35,7 +35,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN composer install
 
-RUN echo 'php artisan key:generate \
+RUN echo 'chown -R www-data:www-data /var/www/ \
+            && php artisan key:generate \
             && php artisan migrate'
 
 # Add user for laravel application
