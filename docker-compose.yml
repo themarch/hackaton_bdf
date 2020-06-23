@@ -69,6 +69,12 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
+    #limites
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   #MySQL Service
   db:
@@ -77,7 +83,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_DATABASE: app
       MYSQL_ROOT_PASSWORD: root
