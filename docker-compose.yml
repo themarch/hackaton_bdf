@@ -33,6 +33,10 @@ services:
       memlock:
         soft: -1
         hard: -1
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 65535
     volumes:
       - esdata1:/usr/share/elasticsearch/data
     ports:
@@ -51,6 +55,10 @@ services:
       memlock:
         soft: -1
         hard: -1
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 65535
     volumes:
       - esdata2:/usr/share/elasticsearch/data
     networks:
@@ -69,12 +77,6 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
-    #limites
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 20000
-        hard: 40000
 
   #MySQL Service
   db:
