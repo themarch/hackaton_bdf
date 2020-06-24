@@ -51,35 +51,86 @@ $(document).ready(function(){
             });
         }
     }
-    }, 500));
+    }, 300));
 })
 
-/*
 $(document).ready(function(){
-    
-    fetch_customer_data();
-
-    function fetch_customer_data(query = '')
-    {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            type:'POST',
-            url: "search",
-            data: { query: query},
-            dataType:'json',
-            success:function(data) {
-                if (data[0].name) {
-                    console.log(data[0].name)
+    $('#search1').keyup(delay(function() {
+        etablissement = $('#search2').val();
+        competence = $('#search3').val();
+        var name = $(this).val();
+        if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
+            $('#result').html('');
+        }
+        else {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            },
-        });
-    }
-    $(document).on('keyup', '#search', function(){
-        var query = $(this).val();
-        fetch_customer_data(query);
-    });
-});*/
+            });
+            $.ajax({
+                type:'POST',
+                url: "search1",
+                data: { name: name, etablissement:etablissement, competence:competence},
+                dataType:'text',
+                success:function(data) {
+                    $('#result').html(data);
+                },
+            });
+        }
+    }, 300));
+})
+
+$(document).ready(function(){
+    $('#search2').keyup(delay(function() {
+        name = $('#search1').val();
+        competence = $('#search3').val();
+        var etablissement = $(this).val();
+        if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
+            $('#result').html('');
+        }
+        else {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url: "search2",
+                data: { name: name, etablissement:etablissement, competence:competence},
+                dataType:'text',
+                success:function(data) {
+                    $('#result').html(data);
+                },
+            });
+        }
+    }, 300));
+})
+
+$(document).ready(function(){
+    $('#search3').keyup(delay(function() {
+        name = $('#search1').val();
+        etablissement = $('#search2').val();
+        var competence = $(this).val();
+        if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
+            $('#result').html('');
+        }
+        else {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url: "search3",
+                data: { name: name, etablissement:etablissement, competence:competence},
+                dataType:'text',
+                success:function(data) {
+                    $('#result').html(data);
+                },
+            });
+        }
+    }, 300));
+})

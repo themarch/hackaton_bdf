@@ -84,7 +84,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <input id="search" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par nom" type="name">
+                    <input id="search1" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par nom" type="name">
+                    <input id="search2" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par établissement" type="name">
+                    <input id="search3" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par compétence" type="name">
                 </div>
                 <div id="result">
                 </div>

@@ -15,3 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'SearchController@index');
 Route::post('/search', 'SearchController@search');
+Route::post('/search1', 'SearchController@search1');
+Route::post('/search2', 'SearchController@search2');
+Route::post('/search3', 'SearchController@search3');
+Route::get('/profile/{id}', 'SearchController@profile');
