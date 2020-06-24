@@ -267,7 +267,7 @@ class SearchController extends Controller
                     $sql = DB::table('user')
                             ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
                             ->where('user.prenom_user', 'like', $request->name.'%')
-                            ->orWhere('user.nom.user', 'like', $request->name.'%')
+                            ->orWhere('user.nom_user', 'like', $request->name.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
                 else if ($request->name != NULL && $request->etablissement != NULL) {
@@ -339,7 +339,7 @@ class SearchController extends Controller
                 {
                     $output = '';
                     $link = "/profile/" . $row->uniqid;
-                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ." </p>";
+                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</p>";
                     echo $output;
                 }
             }

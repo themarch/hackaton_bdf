@@ -83,6 +83,7 @@
             @endif
 
             <div class="content">
+                <h1> Recherche d'économistes spécialisés </h1>
                 <div class="title m-b-md">
                     <input id="search1" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par nom" type="name">
                     <input id="search2" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par établissement" type="name">
