@@ -27,6 +27,31 @@
                 height: 100vh;
             }
 
+            .profile {
+                text-decoration: none;
+                color: #24246b;
+            }
+            
+            .profile:hover {
+                text-decoration: underline;
+                text-decoration-color: rgb(36, 95, 197);
+                color: rgb(36, 95, 197);
+                font-weight: 400;
+            }
+
+            .round {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            #result {
+                border: 1px black solid;
+                border-radius: 7px;
+                width: 50%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
             .flex-center {
                 align-items: center;
                 display: flex;
@@ -44,6 +69,7 @@
             }
 
             .content {
+                margin-bottom: 5%;
                 text-align: center;
             }
 
@@ -89,9 +115,9 @@
                     <input id="search2" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par établissement" type="name">
                     <input id="search3" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par compétence" type="name">
                 </div>
-                <div id="result">
-                </div>
+                <div style="display: none;" id="result">
             </div>
+        </div>
         </div>
     </body>
 </html>

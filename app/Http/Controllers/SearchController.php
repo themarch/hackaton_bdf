@@ -11,34 +11,6 @@ class SearchController extends Controller
         return view('welcome');
     }
 
-    public function search(Request $request) {
-        
-        if($request->ajax())
-        {
-            $output = '';
-            $sql = DB::table('user')
-                        ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
-                        ->where('user.prenom_user', 'like', $request->txt.'%')
-                        ->orWhere('user.nom_user', 'like', $request->txt.'%')
-                        ->orWhere('etablissement.nom_etablissement', 'like', $request->txt.'%')
-                        ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']); 
-            $total_row = $sql->count();
-            if($total_row > 0)
-            {
-                foreach($sql as $row)
-                {
-                    $output = '';
-                    $link = "/profile/" . $row->uniqid;
-                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ." </p>";
-                    echo $output;
-                }
-            }
-            else {
-                echo "Recherche impossible !";
-            }
-        }
-    }
-
     public function search1(Request $request) {
         
         if($request->ajax())
@@ -48,21 +20,21 @@ class SearchController extends Controller
                 if ($request->etablissement == NULL && $request->competence != NULL) {
                     //Faire recherche avec uniquement filtre compétence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
                 else if ($request->etablissement != NULL && $request->competence == NULL) {
                     //Faire recherche avec uniquement filtre etablissement
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
                 else if ($request->etablissement != NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre etablissement AND filtre compétence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -72,7 +44,7 @@ class SearchController extends Controller
                 if ($request->etablissement == NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre compétence + filtre nom 
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('user.prenom_user', 'like', $request->name.'%')
                                 ->where('user.homepage_user', 'like', $request->competence.'%');
@@ -86,7 +58,7 @@ class SearchController extends Controller
                 else if ($request->etablissement != NULL && $request->competence == NULL) {
                     //Faire recherche avec filtre etablissement + filtre nom
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                                 ->where('user.prenom_user', 'like', $request->name.'%');
@@ -100,7 +72,7 @@ class SearchController extends Controller
                 else if ($request->etablissement != NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->where('user.prenom_user', 'like', $request->name.'%')
@@ -121,7 +93,7 @@ class SearchController extends Controller
                 else {
                     //Faire recherche avec uniquement filtre nom
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')                        
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')               
                             ->where('user.prenom_user', 'like', $request->name.'%')
                             ->orWhere('user.nom_user', 'like', $request->name.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -134,12 +106,12 @@ class SearchController extends Controller
                 {
                     $output = '';
                     $link = "/profile/" . $row->uniqid;
-                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ." </p>";
+                    $output = "<div class='round'> <a class='profile' href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</a> </div>";
                     echo $output;
                 }
             }
             else {
-                echo "Recherche impossible !";
+                echo "Personne ne peux être trouvé !";
             }
         }
     }
@@ -153,14 +125,14 @@ class SearchController extends Controller
                 if ($request->name == NULL && $request->competence != NULL) {
                     //Faire recherche avec uniquement filtre compétence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
                 else if ($request->name != NULL && $request->competence == NULL) {
                     //Faire recherche avec uniquement filtre name
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('user.prenom_user', 'like', $request->name.'%')
                             ->orWhere('user.nom_user', 'like', $request->name.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -168,7 +140,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre name AND filtre compétence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('user.prenom_user', 'like', $request->name.'%')
                                 ->where('user.homepage_user', 'like', $request->competence.'%');
@@ -184,7 +156,7 @@ class SearchController extends Controller
                 if ($request->name == NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre compétence + filtre etablissement 
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -192,7 +164,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->competence == NULL) {
                     //Faire recherche avec filtre name + filtre etablissement
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                                 ->where('user.prenom_user', 'like', $request->name.'%');
@@ -206,10 +178,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->competence != NULL) {
                     //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
-                            ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
-                            ->where('user.homepage_user', 'like', $request->competence.'%')
-                            ->where('user.prenom_user', 'like', $request->name.'%')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                                 ->where('user.homepage_user', 'like', $request->competence.'%')
@@ -227,7 +196,7 @@ class SearchController extends Controller
                 else {
                     //Faire recherche avec uniquement filtre etablissement
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')                        
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
@@ -239,12 +208,12 @@ class SearchController extends Controller
                 {
                     $output = '';
                     $link = "/profile/" . $row->uniqid;
-                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ." </p>";
+                    $output = "<div class='round'> <a class='profile' href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</a> </div>";
                     echo $output;
                 }
             }
             else {
-                echo "Recherche impossible !";
+                echo "Personne ne peux être trouvé !";
             }
         }
     }
@@ -258,14 +227,14 @@ class SearchController extends Controller
                 if ($request->name == NULL && $request->etablissement != NULL) {
                     //Faire recherche avec uniquement filtre etablissement
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')                        
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
                 else if ($request->name != NULL && $request->etablissement == NULL) {
                     //Faire recherche avec uniquement filtre name
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('user.prenom_user', 'like', $request->name.'%')
                             ->orWhere('user.nom_user', 'like', $request->name.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -273,7 +242,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->etablissement != NULL) {
                     //Faire recherche avec filtre name AND filtre etablissement
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('user.prenom_user', 'like', $request->name.'%')
                                 ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%');
@@ -289,7 +258,7 @@ class SearchController extends Controller
                 if ($request->name == NULL && $request->etablissement != NULL) {
                     //Faire recherche avec filtre compétence + filtre etablissement 
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
@@ -297,7 +266,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->etablissement == NULL) {
                     //Faire recherche avec filtre name + filtre competence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('user.homepage_user', 'like', $request->competence.'%')
                                 ->where('user.prenom_user', 'like', $request->name.'%');
@@ -311,7 +280,7 @@ class SearchController extends Controller
                 else if ($request->name != NULL && $request->etablissement != NULL) {
                     //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where(function($q) use ($request) {
                                 $q->where('etablissement.nom_etablissement', 'like', $request->etablissement.'%')
                                 ->where('user.homepage_user', 'like', $request->competence.'%')
@@ -327,7 +296,7 @@ class SearchController extends Controller
                 else {
                     //Faire recherche avec uniquement filtre competence
                     $sql = DB::table('user')
-                            ->join('etablissement', 'user.uniqid', '=', 'etablissement.uniqid')
+                            ->join('etablissement', 'user.id_etablissement_user', '=', 'etablissement.id')
                             ->where('user.homepage_user', 'like', $request->competence.'%')
                             ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                 }
@@ -339,12 +308,12 @@ class SearchController extends Controller
                 {
                     $output = '';
                     $link = "/profile/" . $row->uniqid;
-                    $output = "<a href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</p>";
+                    $output = "<div class='round'> <a class='profile' href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</a> </div>";
                     echo $output;
                 }
             }
             else {
-                echo "Recherche impossible !";
+                echo "Personne ne peux être trouvé !";
             }
         }
     }

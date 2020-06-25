@@ -11,56 +11,13 @@ function delay(callback, ms) {
   }
 
 $(document).ready(function(){
-    $('#search').keyup(delay(function() {
-        if ($(this).val().length == 0) {
-            $('#result').html('');
-        }
-        if ($(this).val().length >= 1) {
-        var txt = $(this).val();
-        if (txt != '') {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'POST',
-                url: "search",
-                data: { txt: txt},
-                dataType:'text',
-                success:function(data) {
-                    $('#result').html(data);
-                },
-            });
-        }
-        else {
-            $('#result').html('');
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'POST',
-                url: "search",
-                data: { txt: txt},
-                dataType:'text',
-                success:function(data) {
-                    $('#result').html(data);
-                },
-            });
-        }
-    }
-    }, 300));
-})
-
-$(document).ready(function(){
     $('#search1').keyup(delay(function() {
         etablissement = $('#search2').val();
         competence = $('#search3').val();
         var name = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#result').css('display', 'none');
         }
         else {
             $.ajaxSetup({
@@ -74,6 +31,7 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    $('#result').css('display', 'block');
                     $('#result').html(data);
                 },
             });
@@ -88,6 +46,7 @@ $(document).ready(function(){
         var etablissement = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#result').css('display', 'none');
         }
         else {
             $.ajaxSetup({
@@ -101,6 +60,7 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    $('#result').css('display', 'block');
                     $('#result').html(data);
                 },
             });
@@ -115,6 +75,7 @@ $(document).ready(function(){
         var competence = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#result').css('display', 'none');
         }
         else {
             $.ajaxSetup({
@@ -128,6 +89,7 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    $('#result').css('display', 'block');
                     $('#result').html(data);
                 },
             });

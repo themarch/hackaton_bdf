@@ -14,10 +14,10 @@ class CreateArticleTable extends Migration
     public function up()
     {
         Schema::create('article', function (Blueprint $table) {
-            $table->id();
+            $table->increments('uniqid');
             $table->string('uniqid')->nullable();
-            $table->string('titre')->nullable();
-            $table->string('JEL')->nullable();
+            $table->string('titre_article')->nullable();
+            $table->string('JEL_article')->nullable();
             $table->timestamps();
         });
     }

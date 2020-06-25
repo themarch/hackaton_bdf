@@ -14,8 +14,7 @@ class CreateEtablissementTable extends Migration
     public function up()
     {
         Schema::create('etablissement', function (Blueprint $table) {
-            $table->id();
-            $table->string('uniqid');
+            $table->increments('uniqid');
             $table->string('nom_etablissement');
             $table->string('pays-ville_etablissement')->nullable();
             $table->string('site_etablissement')->nullable();
