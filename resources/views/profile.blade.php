@@ -94,6 +94,8 @@
                 float: left;
             }
 
+
+
             .adresse {
                 margin-top: 0px;
                 float: left;
@@ -126,6 +128,15 @@
                                 map
                             </span> 
                             <span class="phone1"> {{$info->adresse_user}} </span></p>
+                    </div>
+                    @endif
+                    @if (isset($info->homepage_user))
+                    <div class="phone">
+                        <p class="new">
+                            <span class="material-icons">
+                                assignment_ind
+                            </span>
+                            <span class="phone1"> {{$info->nom_etablissement}} </span></p>
                     </div>
                     @endif
                     @if (isset($info->homepage_user))

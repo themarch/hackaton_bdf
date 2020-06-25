@@ -116,8 +116,8 @@
                     <input id="search3" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par compétence" type="name">
                 </div>
                 <div style="display: none;" id="result">
+                </div>
             </div>
-        </div>
         </div>
     </body>
 </html>

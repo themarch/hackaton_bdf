@@ -23,8 +23,12 @@ class CreateUserTable extends Migration
             $table->string('homepage_user')->nullable();
             $table->string('adresse_user')->nullable();
             $table->string('telephone_user')->nullable();
-            $table->string('id_etablissement_user')->nullable();
-            $table->string('id_article_user')->nullable();
+            $table->string('twitter_user')->nullable();
+            $table->string('degree_user')->nullable();
+            $table->string('id_etablissement_user1')->nullable();
+            $table->string('id_etablissement_user2')->nullable();
+            $table->string('id_etablissement_user3')->nullable();
+            $table->string('id_etablissement_user4')->nullable();
             $table->timestamps();
         });
     }
