@@ -33,10 +33,14 @@ $(document).ready(function(){
                 success:function(data) {
                     $('#result').css('display', 'block');
                     $('#result').html(data);
+                    size = $('.round').length;
+                    if (size > 6) {
+                        $('#result').css('overflow-y', 'scroll');
+                    }
                 },
             });
         }
-    }, 300));
+    }, 500));
 })
 
 $(document).ready(function(){
@@ -62,6 +66,10 @@ $(document).ready(function(){
                 success:function(data) {
                     $('#result').css('display', 'block');
                     $('#result').html(data);
+                    size = $('.round').length;
+                    if (size > 6) {
+                        $('#result').css('overflow-y', 'scroll');
+                    }
                 },
             });
         }
@@ -91,6 +99,10 @@ $(document).ready(function(){
                 success:function(data) {
                     $('#result').css('display', 'block');
                     $('#result').html(data);
+                    size = $('.round').length;
+                    if (size > 6) {
+                        $('#result').css('overflow-y', 'scroll');
+                    }
                 },
             });
         }

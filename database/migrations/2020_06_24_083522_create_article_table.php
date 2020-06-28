@@ -15,8 +15,14 @@ class CreateArticleTable extends Migration
     {
         Schema::create('article', function (Blueprint $table) {
             $table->increments('uniqid');
-            $table->string('titre_article')->nullable();
-            $table->string('JEL_article')->nullable();
+            $table->string('link_paper')->nullable();
+            $table->string('name_paper')->nullable();
+            $table->string('id_auteur')->nullable();
+            $table->string('JEL_name')->nullable();
+            $table->string('JEL_1')->nullable();
+            $table->string('JEL_2')->nullable();
+            $table->string('JEL_3')->nullable();
+            $table->string('JEL_4')->nullable();
             $table->timestamps();
         });
     }

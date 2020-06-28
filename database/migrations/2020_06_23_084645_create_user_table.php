@@ -15,10 +15,14 @@ class CreateUserTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('uniqid');
-            $table->string('prenom_user');
-            $table->string('nom_user');
+            $table->string('link_user')->nullable();
+            $table->string('prenom_user')->nullable();
+            $table->string('surnom_user')->nullable();
+            $table->string('nom_user')->nullable();
+            $table->string('all_name')->nullable();
+            $table->string('all_name_invers')->nullable();
             $table->string('suffix_user')->nullable();
-            $table->string('repec_short-id')->nullable();
+            $table->string('repec_shortid')->nullable();
             $table->string('email_user')->nullable();
             $table->string('homepage_user')->nullable();
             $table->string('adresse_user')->nullable();

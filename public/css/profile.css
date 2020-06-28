@@ -1,0 +1,162 @@
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+.link {
+    color: #FDFDFD;
+}
+
+.link:hover {
+    color: #5ba7d1;
+}
+
+.center {
+    margin-top: 80px;
+    margin-left: 50px;
+    color : #345383;
+}
+
+.contact {
+    color: #FDFDFD;
+    font-size: 22px;
+    margin-top: 7px;
+    margin-left: 45px;
+}
+
+.align {
+    vertical-align: top;
+    margin-left: 10px;
+    color: #FDFDFD;
+}
+
+.title_article {
+    vertical-align: top;
+    margin-left: 5px;
+}
+
+.icon {
+    color: #FDFDFD;
+}
+
+.hr {
+    width: 95px;
+    border: 1px solid #312B3D;
+    float: left;
+    margin-left: 52px;
+}
+
+.search {
+    float: right;
+    margin-right: 10px;
+}
+
+.button_back {
+    background-color: #345383;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    outline: none;
+    cursor: pointer;
+    padding: 12px 28px;
+    margin-top: 20px;
+}
+
+.img_cv {
+    display: block;
+    margin: auto;
+    margin-top: 35px;
+    height: 180px;
+    width: 180px;
+}
+
+#wrapper {
+    display: flex;
+    height: auto;
+  }
+  
+.left {
+    flex: 0 0 30%;
+    background-color: #345383;
+}
+
+#article {
+    margin-top: 20px;
+}
+
+.article_div {
+    overflow-y: auto;
+    height: 520px;
+    margin-top: 30px;
+}
+
+.icon_central {
+    display:table !important;
+    margin:0 auto;
+    color: white;
+    font-size: 150px !important;
+}
+
+.all_text {
+    margin-left: 45px;
+}
+
+.information {
+    margin-left: 30px;
+    margin-top: -10px;
+}
+
+.speciality {
+    color: #5ba7d1;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+.right {
+    flex: 1;
+    background-color: #FDFDFD;
+}
+
+.left {
+   min-width: 400px;
+}
+
+.perso {
+    margin-left: 70px;
+    padding-right: 20px;
+}
+
+.icon_article {
+}
+
+@media only screen and (max-width: 980px) {
+    .left {
+        flex: 0 0 40%;
+        min-width: unset;
+    }
+    .perso {
+        margin-left: 40px;
+    }
+    .contact {
+        margin-left: 10px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .perso {
+        margin-left: 40px;
+        margin-top: 25px;
+    }
+    .contact {
+        text-align: center;
+    }
+}

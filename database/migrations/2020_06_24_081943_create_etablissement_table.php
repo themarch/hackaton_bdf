@@ -15,13 +15,15 @@ class CreateEtablissementTable extends Migration
     {
         Schema::create('etablissement', function (Blueprint $table) {
             $table->increments('uniqid');
-            $table->string('nom_etablissement');
-            $table->string('pays-ville_etablissement')->nullable();
+            $table->string('link_etablissement')->nullable();
+            $table->string('nom_etablissement')->nullable();
+            $table->string('pays_ville_etablissement')->nullable();
             $table->string('site_etablissement')->nullable();
             $table->string('email_etablissement')->nullable();
             $table->string('phone_etablissement')->nullable();
             $table->string('fax_etablissement')->nullable();
             $table->string('adresse_etablissement')->nullable();
+            $table->string('function_etablissement')->nullable();
             $table->timestamps();
         });
     }
