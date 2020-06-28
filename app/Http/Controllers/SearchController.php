@@ -769,13 +769,58 @@ class SearchController extends Controller
             ->join('user', 'article.id_auteur', '=', 'user.uniqid')
             ->where('user.uniqid', '=', $id)
             ->get();
-        
+        $ind = 0;
+        $string = '';
+        while ($ind < count($article) - 1) {
+            $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1.' | ';
+            $ind = $ind + 1;
+        }
+        $str = implode(' | ',array_unique(explode(' | ', $string)));
         if (count($query) == 0)
             return redirect('/');
         $data = array (
             'infos' => $query,
             'article' => $article,
+            'str' => $str
         );
         return view ('profile')->with($data);
     }
+
+    public function profilesearch(Request $request) {
+        $article = DB::table('article')
+        ->join('user', 'article.id_auteur', '=', 'user.uniqid')
+        ->where('user.uniqid', '=', $request->id)
+        ->where(function($q) use ($request) {
+            $q->where('article.name_paper', 'like', '%' . $request->competence.'%')
+            ->orWhere('article.JEL_1', 'like', '%' . $request->competence.'%')
+            ->orWhere('article.JEL_2', 'like', '%' . $request->competence.'%')
+            ->orWhere('article.JEL_3', 'like', '%' . $request->competence.'%')
+            ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
+        })
+        ->get();
+        $total_row = $article->count();
+            if($total_row > 0)
+            {
+                foreach($article as $row)
+                {
+                    $output = '';
+                    $link = "/profile/" . $row->uniqid;
+                    $output =  "<p> 
+                    <span class='material-icons icon_article'>
+                        menu_book
+                        </span>
+                    <span class='title_article'> <a target='blank' href=" . $row->link_paper . ">" . $row->name_paper . "</a></span> </p>
+                <p class='information'> 
+                    <span class='material-icons icon_article '>
+                        info
+                        </span>
+                    <span class='title_article'>" . $row->JEL_1 . "<strong> & </strong>" . $row->JEL_2 . "<strong> & </strong>" . $row->JEL_3 . "</span> </p>";
+                    echo ($output);
+                }
+            }
+            else {
+                $output = "Aucun article trouvé !";
+                echo ($output);
+            }
+        }
 }

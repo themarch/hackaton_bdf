@@ -9,10 +9,15 @@ html, body {
 
 .link {
     color: #FDFDFD;
+    text-decoration: underline;
 }
 
 .link:hover {
     color: #5ba7d1;
+}
+
+.specialities {
+    cursor: pointer;
 }
 
 .center {
@@ -107,6 +112,10 @@ html, body {
 }
 
 .all_text {
+    margin-left: 45px;
+}
+
+.result {
     margin-left: 45px;
 }
 
