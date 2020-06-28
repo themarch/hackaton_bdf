@@ -96,6 +96,27 @@
                     </span>
                     <span class="align"> {{$info->nom_etablissement}}  </span> </p>
                 @endif
+                @if (isset($etablissement[1]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[1]->nom_etablissement}}  </span> </p>
+                @endif
+                @if (isset($etablissement[2]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[2]->nom_etablissement}}  </span> </p>
+                @endif
+                @if (isset($etablissement[3]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[3]->nom_etablissement}}  </span> </p>
+                @endif
                 @if (isset($info->pays_ville_etablissement))
                 <p>
                     <span class="material-icons icon">
@@ -144,7 +165,7 @@
                 <span class="search"> <a href="/"> <button class="button_back"> Retour au recherches </button> </a> </span>
                 <h1 class="center"> {{$info->prenom_user}} {{$info->nom_user}} </h1>
                 <hr class="hr"><br>
-                <h3 class="speciality"> {{$info->homepage_user}}</h3>
+                <h3 class="speciality"> {{$info->homepage_user}}</h3>    
                 <h4 class="speciality" id="article"> Articles <span> <input id="search1" autocomplete="off" placeholder="Recherche un article" type="name"> </span></h4>
                 <div class="article_div">
                     <div class="result"> </div>
