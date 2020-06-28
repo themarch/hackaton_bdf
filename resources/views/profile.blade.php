@@ -17,19 +17,27 @@
 
     </head>
     <body>
-          
           <!-- Modal -->
           <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Spécialité de </h5>
+                  <h5 class="modal-title" id="exampleModalLongTitle">Spécialité de @foreach ($infos as $info) {{$info->prenom_user}} @endforeach{{$info->nom_user}}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                    {{$str}}
+                    <span id="str"> {{$str}} </span>
+                    @if (strlen($str1) > strlen($str))
+                        <span id="str1"> Voir + </span> <!-- delete $str et affiche $str1 -->
+                    @endif
+                    @if (strlen($str2) > strlen($str1))
+                        <span id="str2"> Voir + </span> <!-- delete $str1 et affiche $str2 -->
+                    @endif
+                    @if (strlen($str3) > strlen($str2))
+                        <span id="str3"> Voir + </span> <!-- delete $str2 et affiche $str3 -->
+                    @endif
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -53,11 +61,13 @@
                         </span>
                         <span class="align"> {{$info->telephone_user}}  </span> </p>
                     @endif
+                    @if (strlen($str) > 0)
                     <p>
                         <span class="material-icons icon">
                             stars
                         </span>
                         <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Show Specialities  </span> </p>
+                    @endif
                     @if (isset($info->adresse_user))
                     <p>
                         <span class="material-icons icon">

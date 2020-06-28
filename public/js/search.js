@@ -17,6 +17,7 @@ $(document).ready(function(){
         var name = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#error').css('display', 'none');
             $('#result').css('display', 'none');
         }
         else {
@@ -31,6 +32,13 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    if (data == "rip") {
+                        $('#result').css('display', 'none');
+                        $('#error').css('display', 'block');
+                        $('#error').html('<p> Personne ne peut-être trouvé </p>');
+                        return ;
+                    }
+                    $('#error').css('display', 'none');
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;
@@ -50,6 +58,7 @@ $(document).ready(function(){
         var etablissement = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#error').css('display', 'none');
             $('#result').css('display', 'none');
         }
         else {
@@ -64,6 +73,13 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    if (data == "rip") {
+                        $('#result').css('display', 'none');
+                        $('#error').css('display', 'block');
+                        $('#error').html('<p> Personne ne peut-être trouvé </p>');
+                        return ;
+                    }
+                    $('#error').css('display', 'none');
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;
@@ -83,6 +99,7 @@ $(document).ready(function(){
         var competence = $(this).val();
         if (name.length == 0 && etablissement.length == 0 && competence.length == 0) {
             $('#result').html('');
+            $('#error').css('display', 'none');
             $('#result').css('display', 'none');
         }
         else {
@@ -97,6 +114,13 @@ $(document).ready(function(){
                 data: { name: name, etablissement:etablissement, competence:competence},
                 dataType:'text',
                 success:function(data) {
+                    if (data == "rip") {
+                        $('#result').css('display', 'none');
+                        $('#error').css('display', 'block');
+                        $('#error').html('<p> Personne ne peut-être trouvé </p>');
+                        return ;
+                    }
+                    $('#error').css('display', 'none');
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;

@@ -322,7 +322,7 @@ class SearchController extends Controller
                 }
             }
             else {
-                echo "Personne ne peux être trouvé !";
+                echo "rip";
             }
         }
     }
@@ -623,7 +623,7 @@ class SearchController extends Controller
                 }
             }
             else {
-                echo "Personne ne peux être trouvé !";
+                echo "rip";
             }
         }
     }
@@ -924,7 +924,7 @@ class SearchController extends Controller
                 }
             }
             else {
-                echo "Personne ne peux être trouvé !";
+                echo "rip";
             }
         }
     }
@@ -950,16 +950,56 @@ class SearchController extends Controller
         $ind = 0;
         $string = '';
         while ($ind < count($article) - 1) {
-            $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1.' | ';
+            if ($ind == (count($article) - 2))
+                $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1;
+            else {
+                $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1.' | ';
+            }
             $ind = $ind + 1;
         }
-        $str = implode(' | ',array_unique(explode(' | ', $string)));
+        $ind1 = 0;
+        $string1 = '';
+        while ($ind1 < count($article) - 1) {
+            if ($ind1 == (count($article) - 2))
+                $string1 = $string1 . $article[$ind1]->JEL_1.' | '.$article[$ind1 + 1]->JEL_1.' | '.$article[$ind1]->JEL_2.' | '.$article[$ind1 + 1]->JEL_2;
+            else {
+                $string1 = $string1 . $article[$ind1]->JEL_1.' | '.$article[$ind1 + 1]->JEL_1.' | '.$article[$ind1]->JEL_2.' | '.$article[$ind1 + 1]->JEL_2.' | ';
+            }
+            $ind1 = $ind1 + 1;
+        }
+        $ind2 = 0;
+        $string2 = '';
+        while ($ind2 < count($article) - 1) {
+            if ($ind2 == (count($article) - 2))
+                $string2 = $string2 . $article[$ind2]->JEL_1.' | '.$article[$ind2 + 1]->JEL_1.' | '.$article[$ind2]->JEL_2.' | '.$article[$ind2 + 1]->JEL_2.' | '.$article[$ind2]->JEL_3.' | '.$article[$ind2 + 1]->JEL_3;
+            else {
+                $string2 = $string2 . $article[$ind2]->JEL_1.' | '.$article[$ind2 + 1]->JEL_1.' | '.$article[$ind2]->JEL_2.' | '.$article[$ind2 + 1]->JEL_2.' | '.$article[$ind2]->JEL_3.' | '.$article[$ind2 + 1]->JEL_3.' | ';
+            }
+            $ind2 = $ind2 + 1;
+        }
+        $ind3 = 0;
+        $string3 = '';
+        while ($ind3 < count($article) - 1) {
+            if ($ind3 == (count($article) - 2))
+                $string3 = $string3 . $article[$ind3]->JEL_1.' | '.$article[$ind3 + 1]->JEL_1.' | '.$article[$ind3]->JEL_2.' | '.$article[$ind3 + 1]->JEL_2.' | '.$article[$ind3]->JEL_3.' | '.$article[$ind3 + 1]->JEL_3.' | '.$article[$ind3]->JEL_4.' | '.$article[$ind3 + 1]->JEL_4;
+            else {
+                $string3 = $string3 . $article[$ind3]->JEL_1.' | '.$article[$ind3 + 1]->JEL_1.' | '.$article[$ind3]->JEL_2.' | '.$article[$ind3 + 1]->JEL_2.' | '.$article[$ind3]->JEL_3.' | '.$article[$ind3 + 1]->JEL_3.' | '.$article[$ind3]->JEL_4.' | '.$article[$ind3 + 1]->JEL_4.' | ';
+            }
+            $ind3 = $ind3 + 1;
+        }
+        $str = implode(' | ', array_unique(explode(' | ', $string)));
+        $str1 = implode(' | ', array_unique(explode(' | ', $string1)));
+        $str2 = implode(' | ', array_unique(explode(' | ', $string2)));
+        $str3 = implode(' | ', array_unique(explode(' | ', $string3)));
         if (count($query) == 0)
             return redirect('/');
         $data = array (
             'infos' => $query,
             'article' => $article,
             'str' => $str,
+            'str1' => $str1,
+            'str2' => $str2,
+            'str3' => $str3,
             'etablissement' => $etablissement,
         );
         return view ('profile')->with($data);
