@@ -30,13 +30,13 @@
                 <div class="modal-body">
                     <span id="str"> {{$str}} </span>
                     @if (strlen($str1) > strlen($str))
-                        <span id="str1"> Voir + </span> <!-- delete $str et affiche $str1 -->
+                        <span id="str1"> <br> Voir + </span> <!-- delete $str et affiche $str1 -->
                     @endif
                     @if (strlen($str2) > strlen($str1))
-                        <span id="str2"> Voir + </span> <!-- delete $str1 et affiche $str2 -->
+                        <span id="str2"> <br> Voir + </span> <!-- delete $str1 et affiche $str2 -->
                     @endif
                     @if (strlen($str3) > strlen($str2))
-                        <span id="str3"> Voir + </span> <!-- delete $str2 et affiche $str3 -->
+                        <span id="str3"> <br> Voir + </span> <!-- delete $str2 et affiche $str3 -->
                     @endif
                 </div>
                 <div class="modal-footer">
