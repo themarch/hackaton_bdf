@@ -145,7 +145,7 @@
                 <h1 class="center"> {{$info->prenom_user}} {{$info->nom_user}} </h1>
                 <hr class="hr"><br>
                 <h3 class="speciality"> {{$info->homepage_user}}</h3>
-                <h4 class="speciality" id="article"> Articles <span> <input id="search1" style="height: 45px; width: 270px; float: right; margin-right: 20px;"  autocomplete="off" placeholder="Recherche un article" type="name"> </span></h4>
+                <h4 class="speciality" id="article"> Articles <span> <input id="search1" autocomplete="off" placeholder="Recherche un article" type="name"> </span></h4>
                 <div class="article_div">
                     <div class="result"> </div>
                 @foreach ($article as $arti)

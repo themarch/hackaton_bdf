@@ -160,6 +160,14 @@ html, body {
     }
 }
 
+#search1 {
+    height: 45px;
+    width: 270px;
+    float: right;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
 @media only screen and (max-width: 900px) {
     .perso {
         margin-left: 40px;
@@ -167,5 +175,11 @@ html, body {
     }
     .contact {
         text-align: center;
+    }
+}
+
+@media only screen and (max-width: 703px) {
+    #search1 {
+        display: none;
     }
 }
