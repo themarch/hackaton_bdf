@@ -474,4 +474,4 @@ if __name__ == "__main__":
     #        print(ret)
     #    except Exception as e:
     #        print("Unexpected output : {}".format(e), file=sys.stderr)
-    p
+    parse_repec_author()
