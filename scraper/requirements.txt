@@ -3,4 +3,6 @@ lxml
 beautifulsoup4
 requests
 grequests
-mysql.connector
+mysql-connector
+numpy
+pandas

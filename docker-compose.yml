@@ -69,10 +69,11 @@ services:
       - app-network
 
   #Python Service
-  app:
+  scrap:
     build:
       context: .
       dockerfile: ./scraper/Dockerfile
+    user: root
     container_name: scraper
     restart: unless-stopped
     tty: true
