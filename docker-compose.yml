@@ -75,7 +75,7 @@ services:
       dockerfile: ./scraper/Dockerfile
     user: root
     container_name: scraper
-    restart: unless-stopped
+    restart: on-failure
     tty: true
     environment:
       SERVICE_NAME: scrap
