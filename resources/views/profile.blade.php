@@ -23,24 +23,20 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLongTitle">Spécialité de @foreach ($infos as $info) {{$info->prenom_user}} @endforeach{{$info->nom_user}}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close exit" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                     <span id="str"> {{$str}} </span>
                     @if (strlen($str1) > strlen($str))
-                        <span id="str1"> <br> Voir + </span> <!-- delete $str et affiche $str1 -->
-                    @endif
-                    @if (strlen($str2) > strlen($str1))
-                        <span id="str2"> <br> Voir + </span> <!-- delete $str1 et affiche $str2 -->
-                    @endif
-                    @if (strlen($str3) > strlen($str2))
-                        <span id="str3"> <br> Voir + </span> <!-- delete $str2 et affiche $str3 -->
+                        <span class="str_plus" id="str1"> <br> Voir + </span>
+                        <span style="display: none;" id="str11"> {{$str1}} </span>
+                        <span style="display: none;" class="str_plus" id="str_1"> <br> Voir - </span>
                     @endif
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary exit" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>

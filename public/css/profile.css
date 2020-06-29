@@ -39,6 +39,14 @@ html, body {
     color: #FDFDFD;
 }
 
+.str_plus {
+    float: right;
+    margin-right: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #345383;
+}
+
 .title_article {
     vertical-align: top;
     margin-left: 5px;
