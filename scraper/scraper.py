@@ -9,6 +9,7 @@ import requests
 import grequests
 import urllib.parse
 import mysql.connector
+import sys
 
 base_url = "https://ideas.repec.org"
 
@@ -412,7 +413,7 @@ def parse_repec_author():
     #and links to author's papers
     info_authors = []
     papers_url = []
-    reqs_authors = (grequests.get(link) for link in urls_author[:1])
+    reqs_authors = (grequests.get(link) for link in urls_author[:10])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
     for r in resp_authors:
         try:
@@ -422,7 +423,9 @@ def parse_repec_author():
             info_authors.append(info)
             papers_url.append(urls_papers)
             if len(papers_url) > 50000:
-                #populate_papers_data(conn, cursor, pa
+                print("saving papers")
+                papers_url = []
+                #populate_papers_data(conn, cursor, papers_urls)
                 continue
         except Exception as e:
             print("Unexpected output : {}".format(e), file=sys.stderr)
