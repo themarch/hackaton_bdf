@@ -1,0 +1,6 @@
+gevent
+lxml
+beautifulsoup4
+requests
+grequests
+mysql.connector

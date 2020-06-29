@@ -68,6 +68,26 @@ services:
     networks:
       - app-network
 
+  #Python Service
+  app:
+    build:
+      context: .
+      dockerfile: ./scraper/Dockerfile
+    container_name: scraper
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: scrap
+      SERVICE_TAGS: dev
+    working_dir: /usr/src/app
+    volumes:
+      - ./scraper/:/usr/src/app
+    networks:
+      - app-network
+
+
+
+
 #Docker Networks
 networks:
   esnet:
