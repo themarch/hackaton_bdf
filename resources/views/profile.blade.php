@@ -17,22 +17,26 @@
 
     </head>
     <body>
-          
           <!-- Modal -->
           <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Spécialité de </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Spécialité de @foreach ($infos as $info) {{$info->prenom_user}} @endforeach{{$info->nom_user}}</h5>
+                  <button type="button" class="close exit" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                    {{$str}}
+                    <span id="str"> {{$str}} </span>
+                    @if (strlen($str1) > strlen($str))
+                        <span class="str_plus" id="str1"> <br> Voir + </span>
+                        <span style="display: none;" id="str11"> {{$str1}} </span>
+                        <span style="display: none;" class="str_plus" id="str_1"> <br> Voir - </span>
+                    @endif
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary exit" data-dismiss="modal">Close</button>
                 </div>
               </div>
             </div>
@@ -53,11 +57,13 @@
                         </span>
                         <span class="align"> {{$info->telephone_user}}  </span> </p>
                     @endif
+                    @if (strlen($str) > 0)
                     <p>
                         <span class="material-icons icon">
                             stars
                         </span>
                         <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Show Specialities  </span> </p>
+                    @endif
                     @if (isset($info->adresse_user))
                     <p>
                         <span class="material-icons icon">
@@ -95,6 +101,27 @@
                         school
                     </span>
                     <span class="align"> {{$info->nom_etablissement}}  </span> </p>
+                @endif
+                @if (isset($etablissement[1]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[1]->nom_etablissement}}  </span> </p>
+                @endif
+                @if (isset($etablissement[2]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[2]->nom_etablissement}}  </span> </p>
+                @endif
+                @if (isset($etablissement[3]->nom_etablissement))
+                <p>
+                    <span class="material-icons icon">
+                        school
+                    </span>
+                    <span class="align"> {{$etablissement[3]->nom_etablissement}}  </span> </p>
                 @endif
                 @if (isset($info->pays_ville_etablissement))
                 <p>
@@ -144,7 +171,7 @@
                 <span class="search"> <a href="/"> <button class="button_back"> Retour au recherches </button> </a> </span>
                 <h1 class="center"> {{$info->prenom_user}} {{$info->nom_user}} </h1>
                 <hr class="hr"><br>
-                <h3 class="speciality"> {{$info->homepage_user}}</h3>
+                <h3 class="speciality"> {{$info->homepage_user}}</h3>    
                 <h4 class="speciality" id="article"> Articles <span> <input id="search1" autocomplete="off" placeholder="Recherche un article" type="name"> </span></h4>
                 <div class="article_div">
                     <div class="result"> </div>

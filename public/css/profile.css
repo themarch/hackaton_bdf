@@ -39,6 +39,14 @@ html, body {
     color: #FDFDFD;
 }
 
+.str_plus {
+    float: right;
+    margin-right: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #345383;
+}
+
 .title_article {
     vertical-align: top;
     margin-left: 5px;
@@ -97,6 +105,7 @@ html, body {
 #article {
     margin-top: 20px;
 }
+
 
 .article_div {
     overflow-y: auto;
@@ -176,10 +185,26 @@ html, body {
     .contact {
         text-align: center;
     }
+    .email_user {
+        font-size: 14px;
+    }
 }
 
 @media only screen and (max-width: 703px) {
     #search1 {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 620px) {
+    .perso {
+        margin-left: 0px;
+        padding-right: 0;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .all_text {
+        margin-left: 10px;
     }
 }

@@ -10,6 +10,38 @@ function delay(callback, ms) {
     };
   }
 
+  $(document).ready(function(){
+    var size = $(window).height();
+    $('.article_div').css('height', size - 270)
+  })
+
+$(document).ready(function(){
+    $('#str1').click(function() {
+        $('#str').css('display', 'none');
+        $('#str1').css('display', 'none');
+        $('#str11').css('display', 'block');
+        $('#str_1').css('display', 'block');
+    })
+})
+
+$(document).ready(function(){
+    $('#str_1').click(function() {
+        $('#str').css('display', 'block');
+        $('#str1').css('display', 'block');
+        $('#str11').css('display', 'none');
+        $('#str_1').css('display', 'none');
+    })
+})
+
+$(document).ready(function(){
+    $('.exit').click(function() {
+        $('#str').css('display', 'block');
+        $('#str1').css('display', 'block');
+        $('#str11').css('display', 'none');
+        $('#str_1').css('display', 'none');
+    })
+})
+
 $(document).ready(function(){
     $('#search1').keyup(delay(function() {
         var competence = $(this).val();
