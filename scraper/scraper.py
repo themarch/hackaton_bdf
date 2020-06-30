@@ -12,7 +12,8 @@ import mysql.connector
 import sys
 
 base_url = "https://ideas.repec.org"
-COLUMNS_AUTHORS = 18
+USER_DATA_LEN = 17
+UNI_DATA_LEN = 7
 
 def get_cursor(db):
     try:
@@ -304,7 +305,7 @@ def scrap_papers_page(papers_url):
 """
 def populate_user_data(conn, cursor, rows):
     cols_user_data_name = "`link_user`, `prenom_user`, `surnom_user`, `nom_user`, `all_name`, `all_name_invers`, `suffix_user`, `repec_shortid`, `email_user`, `homepage_user`, `adresse_user`, `telephone_user`, `twitter_user`, `degree_user`, `id_etablissement_user1`, `id_etablissement_user2`, `id_etablissement_user3`, `id_etablissement_user4`"
-    values_string = '%s, ' * (COLUMNS_AUTHORS - 1) + '%s'
+    values_string = '%s, ' * USER_DATA_LEN + '%s'
  
     
     # for jack in rows[0]:
@@ -320,8 +321,8 @@ def populate_user_data(conn, cursor, rows):
     except Exception as e: 
         print(rows)
         print(query)
-        for jack in rows:
-            print(type(jack[0]))
+        # for jack in rows:
+        #     print(type(jack[0]))
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
@@ -330,9 +331,9 @@ def populate_user_data(conn, cursor, rows):
 """
 def populate_uni_data(conn, cursor, rows):
     cols_uni_data_name ="`nom_etablissement`, `pays-ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
-    values_string = '%s, ' * len(cols_uni_data_name)
+    values_string = '%s, ' * UNI_DATA_LEN + '%s'
 
-    query = f"""INSERT INTO ETABLISSEMENT ({cols_uni_data_name} VALUES ({values_string}))"""
+    query = f"""INSERT INTO ETABLISSEMENT ({cols_uni_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
@@ -346,9 +347,9 @@ def populate_uni_data(conn, cursor, rows):
 """
 def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
-    values_string = '%s, ' * len(cols_papers_data_name)
+    values_string = '%s, ' * UNI_DATA_LEN + '%s'
  
-    query = f"""INSERT INTO ARTICLE ({cols_uni_data_name} VALUES ({values_string}))"""
+    query = f"""INSERT INTO ARTICLE ({cols_papers_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
@@ -448,7 +449,7 @@ def parse_repec_author(conn, cursor):
 
     #TODO -> populate db with uni_info
     info_unis = scrap_unis_page([url for url in url_uni.keys()])
-    populate_uni_data(conn, cursor, infos_uni)
+    populate_uni_data(conn, cursor, info_unis)
 
 
     print("\n---Scrapping papers infos----\n")
