@@ -11,18 +11,25 @@ import urllib.parse
 import mysql.connector
 
 base_url = "https://ideas.repec.org"
+COLUMNS_AUTHORS = 18
 
 def get_cursor(db):
     try:
+        # print('Connecting to the database :', db)
+        # conn = mysql.connector.connect(host='localhost',
+        #         database=db,
+        #         user='root',
+        #         password='root')
+        # print('Connection established to {}'.format(db))
         print('Connecting to the database :', db)
-        conn = mysql.connector.connect(host='localhost',
+        conn = mysql.connector.connect(host='db',
                 database=db,
                 user='root',
-                password='rootroot')
+                password='root')
         print('Connection established to {}'.format(db))
     except Exception as e:
         raise(e)
-
+        print('SUCESSFULL', db)
     return conn, conn.cursor()
 
 # --------- Parse author's informations
@@ -302,9 +309,12 @@ def scrap_papers_page(papers_url):
 """
 def populate_user_data(conn, cursor, rows):
     cols_user_data_name = "`link_user`, `prenom_user`, `surnom_user`, `nom_user`, `all_name`, `all_name_invers`, `suffix_user`, `repec_short-id`, `email_user`, `homepage_user`, `adresse_user`, `telephone_user`, `twitter_user`, `degree_user`, `id_etablissement_user1`, `id_etablissement_user2`, `id_etablissement_user3`, `id_etablissement_user4`"
-    values_string = '%s, ' * len(cols_user_data_name)
+    values_string = '%s, ' * (COLUMNS_AUTHORS - 1) + '%s'
  
-    query = f"""INSERT INTO USER ({cols_user_data_name} VALUES ({values_string}))"""
+    print("debuuuuuuuuuuug")
+    print(rows[0])
+
+    query = f"""INSERT INTO user ({cols_user_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
@@ -385,7 +395,7 @@ def export_csv(authors, uni, papers):
 This function should go throught all the names gathered in `ideas.repec.org`.
 It looks for their homepage, their names, and the number of articles written
 """
-def parse_repec_author():
+def parse_repec_author(conn, cursor):
     url_repec = "https://ideas.repec.org/i/eall.html"
 
     source = requests.get(url_repec)
@@ -422,24 +432,27 @@ def parse_repec_author():
             info_authors.append(info)
             papers_url.append(urls_papers)
             if len(papers_url) > 50000:
-                #populate_papers_data(conn, cursor, pa
+                populate_papers_data(conn, cursor, papers_url)
+                papers_url = []
                 continue
         except Exception as e:
             print("Unexpected output : {}".format(e), file=sys.stderr)
 
     #print(info_authors)
     #TODO -> populate db with author_info
-    #populate_user_data(conn, cursor, infos_authors):
+    populate_user_data(conn, cursor, info_authors)
 
     print("\n---Scrapping unis contact----\n")
 
     #TODO -> populate db with uni_info
     info_unis = scrap_unis_page([url for url in url_uni.keys()])
-    #populate_user_data(conn, cursor, infos_uni):
+    populate_uni_data(conn, cursor, infos_uni)
 
 
     print("\n---Scrapping papers infos----\n")
     all_papers = scrap_papers_page(papers_url)
+    populate_papers_data(conn, cursor, all_papers)
+
     
     export_csv(info_authors, info_unis, all_papers)
 
@@ -474,4 +487,5 @@ if __name__ == "__main__":
     #        print(ret)
     #    except Exception as e:
     #        print("Unexpected output : {}".format(e), file=sys.stderr)
-    parse_repec_author()
+    conn, cursor = get_cursor('hackaton')
+    parse_repec_author(conn, cursor)

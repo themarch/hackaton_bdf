@@ -9,4 +9,4 @@ RUN pip install --upgrade pip && \
 
 COPY ./scraper/scraper.py .
 
-CMD [ "python", "./scraper.py" ]
+# CMD [ "python", "./scraper.py" ]
