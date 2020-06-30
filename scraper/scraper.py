@@ -23,7 +23,7 @@ def get_args():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--save", "-s",
-                        help="Use this option if you want to export the database in a csv file", action="store_false")
+                        help="Use this option if you want to export the database in a csv file", action="store_true", default=False)
     return parser.parse_args()
 
 
@@ -382,7 +382,7 @@ def scrap_unis_page(lst_url):
 """
 def export_csv(filename, rows, column_names, option):
     data = numpy.array(rows)
-    df = pandas.DataFrame(data_authors, columns=column_names)
+    df = pandas.DataFrame(data, columns=column_names)
     df.to_csv(filename, index=False, mode=option)
 
 
@@ -429,10 +429,10 @@ def parse_repec_author(conn, cursor, args):
             info = [r.url] + info_author
             info_authors.append(info)
             papers_url.append(urls_papers)
-            if len(papers_url) > 2:
-                infos_paper = scrap_papers_page(papers_url, add)
+            if len(papers_url) > 2000:
+                info_papers = scrap_papers_page(papers_url, add)
                 add += len(papers_url)
-                populate_papers_data(conn, cursor, infos_papers)
+                populate_papers_data(conn, cursor, info_papers)
                 papers_url = []
                 if args.save:
                     print("export to csv")
@@ -466,12 +466,11 @@ def parse_repec_author(conn, cursor, args):
 
         export_csv("authors.csv", info_authors, cols_user_data_csv, "w")
         export_csv("affiliations.csv", info_unis, cols_uni_data_csv, "w")
-        export_csv("papers.csv", info_papers, cols_papers_data_csv, "w")
+        export_csv("papers.csv", info_papers, cols_papers_data_csv, "a")
 
 
 if __name__ == "__main__":
     args = get_args()
-    print(args.save)
     conn, cursor = get_cursor('hackaton')
     parse_repec_author(conn, cursor, args)
     conn.close()

@@ -940,7 +940,7 @@ class SearchController extends Controller
             ->where('user.uniqid', '=', $id)
             ->distinct('article.name_paper')
             ->get(['article.name_paper', 'article.link_paper']);
-
+        dd($article);
         foreach ($article as $arti) {
             array_push($classification,DB::table('article')
             ->where('article.name_paper', '=', $arti->name_paper)
