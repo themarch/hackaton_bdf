@@ -63,7 +63,7 @@
                         <span class="material-icons icon">
                             stars
                         </span>
-                        <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Show Specialities  </span> </p>
+                        <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Montrer les spécialités  </span> </p>
                     @endif
                     @if (isset($info->adresse_user))
                     <p>
@@ -84,7 +84,7 @@
                         <span class="material-icons icon">
                             link
                         </span>
-                        <span class="align"> <a class="link" target="blank" href="{{$info->link_user}}"> Link to Repec </a>  </span> </p>
+                        <span class="align"> <a class="link" target="blank" href="{{$info->link_user}}"> Lien vers Repec </a>  </span> </p>
                     @endif
                     @if (isset($info->repec_shortid))
                     <p>
@@ -156,7 +156,7 @@
                     <span class="material-icons icon">
                         phone_iphone
                     </span>
-                    <span class="align"> <a class="link" target="blank" href="{{$info->site_etablissement}}"> Go to Website </a> </span> </p>
+                    <span class="align"> <a class="link" target="blank" href="{{$info->site_etablissement}}"> Voir le site </a> </span> </p>
                 @endif
                 @if (isset($info->fax_etablissement))
                 <p>
@@ -224,7 +224,7 @@
                         <span class="material-icons icon">
                             stars
                         </span>
-                        <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Show Specialities  </span> </p>
+                        <span class="align link specialities" data-toggle="modal" data-target="#exampleModalCenter"> Montrer les spécialités  </span> </p>
                     @endif
                     @if (isset($info->adresse_user))
                     <p>
@@ -245,7 +245,7 @@
                         <span class="material-icons icon">
                             link
                         </span>
-                        <span class="align"> <a class="link" target="blank" href="{{$info->link_user}}"> Link to Repec </a>  </span> </p>
+                        <span class="align"> <a class="link" target="blank" href="{{$info->link_user}}"> Lien vers Repec </a>  </span> </p>
                     @endif
                     @if (isset($info->repec_shortid))
                     <p>
@@ -318,7 +318,7 @@
                     <span class="material-icons icon">
                         phone_iphone
                     </span>
-                    <span class="align"> <a class="link" target="blank" href="{{$info->site_etablissement}}"> Go to Website </a> </span> </p>
+                    <span class="align"> <a class="link" target="blank" href="{{$info->site_etablissement}}"> Voir le site </a> </span> </p>
                 @endif
                 @if (isset($info->fax_etablissement))
                 <p>
@@ -330,10 +330,10 @@
                 </div>
             </div>
             <div class="right">
-                <span class="search"> <a href="/"> <button class="button_back"> Retour au recherches </button> </a> </span>
+                <span class="search"> <a href="/"> <button class="button_back"> Retour aux recherches </button> </a> </span>
                 <h1 class="center"> {{$info->prenom_user}} {{$info->nom_user}} </h1>
                 <hr class="hr"><br>
-                <h4 class="speciality" id="article"> Articles <span> <input id="search1" autocomplete="off" placeholder="Recherche un article" type="name"> </span></h4>
+                <h4 class="speciality" id="article"> Articles <span> <input id="search1" autocomplete="off" placeholder="Rechercher un article / Code JEL" type="name"> </span></h4>
                 <div class="article_div">
                     <div class="result"> </div>
                 @foreach ($article as $arti)

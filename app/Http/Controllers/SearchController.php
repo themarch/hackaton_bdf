@@ -1099,7 +1099,7 @@ class SearchController extends Controller
                                     <span class='material-icons icon_article '>
                                         info
                                         </span>
-                                    <span class='title_article'>" . " " . $e->JEL_1 . "<strong>&</strong> " . $e->JEL_2 . "</span> </p>";
+                                    <span class='title_article'>" . $e->JEL_1 . "<strong> &</strong> " . $e->JEL_2 . "</span> </p>";
                                 }
                             }
                         }
