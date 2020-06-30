@@ -26,7 +26,7 @@
                 <div class="title m-b-md">
                     <input id="search1" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par nom" type="name">
                     <input id="search2" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par établissement" type="name">
-                    <input id="search3" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par compétence" type="name">
+                    <input id="search3" style="height: 70px; width: 300px;"  autocomplete="off" placeholder="Recherche par compétence / Code JEL" type="name">
                 </div>
                 <div style="display: none;" id="result">
                 </div>
