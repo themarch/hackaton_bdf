@@ -18,7 +18,7 @@ class CreateArticleTable extends Migration
             $table->string('link_paper')->nullable();
             $table->string('name_paper')->nullable();
             $table->string('id_auteur')->nullable();
-            $table->string('JEL_name')->nullable();
+            $table->string('JEL_name', '1000')->nullable();
             $table->string('JEL_1')->nullable();
             $table->string('JEL_2')->nullable();
             $table->string('JEL_3')->nullable();
