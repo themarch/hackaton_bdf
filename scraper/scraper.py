@@ -9,18 +9,13 @@ import requests
 import grequests
 import urllib.parse
 import mysql.connector
+import sys
 
 base_url = "https://ideas.repec.org"
 COLUMNS_AUTHORS = 18
 
 def get_cursor(db):
     try:
-        # print('Connecting to the database :', db)
-        # conn = mysql.connector.connect(host='localhost',
-        #         database=db,
-        #         user='root',
-        #         password='root')
-        # print('Connection established to {}'.format(db))
         print('Connecting to the database :', db)
         conn = mysql.connector.connect(host='db',
                 database=db,
@@ -171,7 +166,7 @@ def personal_info_to_formated(infos, lst_index_uni):
     ret_infos = []
     for key in cols:
         try:
-            value = infos[key]
+            value = str(infos[key])
             if value == "":
                 value = None
         except KeyError:
@@ -182,7 +177,7 @@ def personal_info_to_formated(infos, lst_index_uni):
         if i >= len(lst_index_uni):
             ret_infos.append(None)
         else:
-            ret_infos.append(str(lst_index_uni[i]))
+            ret_infos.append(lst_index_uni[i])
     if ret_infos[0] == None:
         first_name = ""
     else:
@@ -308,11 +303,16 @@ def scrap_papers_page(papers_url):
 """
 """
 def populate_user_data(conn, cursor, rows):
-    cols_user_data_name = "`link_user`, `prenom_user`, `surnom_user`, `nom_user`, `all_name`, `all_name_invers`, `suffix_user`, `repec_short-id`, `email_user`, `homepage_user`, `adresse_user`, `telephone_user`, `twitter_user`, `degree_user`, `id_etablissement_user1`, `id_etablissement_user2`, `id_etablissement_user3`, `id_etablissement_user4`"
+    cols_user_data_name = "`link_user`, `prenom_user`, `surnom_user`, `nom_user`, `all_name`, `all_name_invers`, `suffix_user`, `repec_shortid`, `email_user`, `homepage_user`, `adresse_user`, `telephone_user`, `twitter_user`, `degree_user`, `id_etablissement_user1`, `id_etablissement_user2`, `id_etablissement_user3`, `id_etablissement_user4`"
     values_string = '%s, ' * (COLUMNS_AUTHORS - 1) + '%s'
  
-    print("debuuuuuuuuuuug")
-    print(rows[0])
+    
+    # for jack in rows[0]:
+    #     print(type(jack))
+    # print("youhou")
+    # print(len(rows[0]))
+
+    # rows = [["NULL" if el == None else str(el) for el in lst] for lst in rows]
 
     query = f"""INSERT INTO user ({cols_user_data_name}) VALUES ({values_string})"""
     try:
@@ -320,6 +320,8 @@ def populate_user_data(conn, cursor, rows):
     except Exception as e: 
         print(rows)
         print(query)
+        for jack in rows:
+            print(type(jack[0]))
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
@@ -329,7 +331,7 @@ def populate_user_data(conn, cursor, rows):
 def populate_uni_data(conn, cursor, rows):
     cols_uni_data_name ="`nom_etablissement`, `pays-ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
     values_string = '%s, ' * len(cols_uni_data_name)
- 
+
     query = f"""INSERT INTO ETABLISSEMENT ({cols_uni_data_name} VALUES ({values_string}))"""
     try:
         cursor.executemany(query, rows)
@@ -422,7 +424,7 @@ def parse_repec_author(conn, cursor):
     #and links to author's papers
     info_authors = []
     papers_url = []
-    reqs_authors = (grequests.get(link) for link in urls_author[:1])
+    reqs_authors = (grequests.get(link) for link in urls_author[:10])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
     for r in resp_authors:
         try:

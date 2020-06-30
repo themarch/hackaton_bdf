@@ -38,9 +38,9 @@ COPY . /var/www
 
 RUN composer install
 
-RUN echo 'chown -R www-data:www-data /var/www/ \
-            && php artisan key:generate \
-            && php artisan migrate'
+RUN echo 'chown -R www-data:www-data /var/www/' 
+RUN echo 'php artisan key:generate'
+RUN echo 'php artisan migrate'
 
 # Add user for laravel application
 RUN groupadd -g 1000 www
