@@ -430,12 +430,12 @@ def parse_repec_author(conn, cursor, args):
             info_authors.append(info)
             papers_url.append(urls_papers)
             if len(papers_url) > 2:
-                infos_papers = scrap_papers_page(papers_url, add)
+                infos_paper = scrap_papers_page(papers_url, add)
                 add += len(papers_url)
                 populate_papers_data(conn, cursor, infos_papers)
                 papers_url = []
-                print("export to csv")
                 if args.save:
+                    print("export to csv")
                     if erased:
                         option = "a"
                     else:
@@ -456,6 +456,10 @@ def parse_repec_author(conn, cursor, args):
     info_unis = scrap_unis_page([url for url in url_uni.keys()])
     populate_uni_data(conn, cursor, info_unis)
 
+    print("\n---Scrapping papers infos----\n")
+    all_papers = scrap_papers_page(papers_url, add)
+    populate_papers_data(conn, cursor, all_papers)
+
     if args.save:
         cols_user_data_csv = ["link_user", "prenom_user", "surnom_user", "nom_user", "all_name", "all_name_invers", "suffix_user", "repec_short-id", "email_user", "homepage_user", "adresse_user", "telephone_user", "twitter_user", "degree_user", "id_etablissement_user1", "id_etablissement_user2", "id_etablissement_user3", "id_etablissement_user4"]
         cols_uni_data_csv = ["link_etablissement", "nom_etablissement", "pays-ville_etablissement","site_etablissement", "email_etablissement","phone_etablissement","fax_etablissement","adresse_etablissement", "function_etablissement"]
@@ -465,16 +469,9 @@ def parse_repec_author(conn, cursor, args):
         export_csv("papers.csv", info_papers, cols_papers_data_csv, "w")
 
 
-    print("\n---Scrapping papers infos----\n")
-    all_papers = scrap_papers_page(papers_url, add)
-    populate_papers_data(conn, cursor, all_papers)
-
-    
-    export_csv(info_authors, info_unis, all_papers)
-
-
 if __name__ == "__main__":
     args = get_args()
+    print(args.save)
     conn, cursor = get_cursor('hackaton')
     parse_repec_author(conn, cursor, args)
     conn.close()
