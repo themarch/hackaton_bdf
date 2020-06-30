@@ -13,7 +13,8 @@ import sys
 
 base_url = "https://ideas.repec.org"
 USER_DATA_LEN = 17
-UNI_DATA_LEN = 7
+UNI_DATA_LEN = 8
+ARTICLE_DATA_LEN = 7
 
 def get_cursor(db):
     try:
@@ -276,10 +277,10 @@ def scrap_paper_page(url, index, soup):
         except:
             second = left
             third = None
-        lst_class.append([url, name_article, index, title, main, second, third])
+        lst_class.append([url, name_article, index, li.text, title, main, second, third])
     return lst_class
 
-def scrap_papers_page(papers_url):
+def scrap_papers_page(papers_url, add):
     all_papers = []
     for (i, papers) in enumerate(papers_url):
         reqs_papers = (grequests.get(link) for link in papers)
@@ -287,7 +288,7 @@ def scrap_papers_page(papers_url):
         for r in resp_papers:
             try:
                 soup = BeautifulSoup(r.text, 'lxml')
-                infos_paper = scrap_paper_page(r.url, str(i+1), soup)
+                infos_paper = scrap_paper_page(r.url, str(i+add+1), soup)
                 if infos_paper == None:
                     continue
                 for info_paper in infos_paper:
@@ -330,10 +331,10 @@ def populate_user_data(conn, cursor, rows):
 """
 """
 def populate_uni_data(conn, cursor, rows):
-    cols_uni_data_name ="`nom_etablissement`, `pays-ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
+    cols_uni_data_name ="`link_etablissement`, `nom_etablissement`, `pays_ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
     values_string = '%s, ' * UNI_DATA_LEN + '%s'
 
-    query = f"""INSERT INTO ETABLISSEMENT ({cols_uni_data_name}) VALUES ({values_string})"""
+    query = f"""INSERT INTO etablissement ({cols_uni_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
@@ -347,14 +348,17 @@ def populate_uni_data(conn, cursor, rows):
 """
 def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
-    values_string = '%s, ' * UNI_DATA_LEN + '%s'
+    values_string = '%s, ' * ARTICLE_DATA_LEN + '%s'
  
-    query = f"""INSERT INTO ARTICLE ({cols_papers_data_name}) VALUES ({values_string})"""
-    try:
+    # print("HDEEEEEEE")
+    print(len(rows[0]))
+
+    query = f"""INSERT INTO article ({cols_papers_data_name}) VALUES ({values_string})"""
+    try: 
         cursor.executemany(query, rows)
     except Exception as e: 
-        print(rows)
-        print(query)
+        print(rows[391])
+        # # print(query)
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
@@ -427,15 +431,18 @@ def parse_repec_author(conn, cursor):
     papers_url = []
     reqs_authors = (grequests.get(link) for link in urls_author[:10])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
-    for r in resp_authors:
+    add = 0
+    for i, r in enumerate(resp_authors):
         try:
             soup = BeautifulSoup(r.text, 'lxml')
             (url_uni, count_uni, info_author, urls_papers) = scrap_author_page(url_uni, count_uni, soup)
             info = [r.url] + info_author
             info_authors.append(info)
             papers_url.append(urls_papers)
-            if len(papers_url) > 50000:
-                populate_papers_data(conn, cursor, papers_url)
+            if len(papers_url) > 10000:
+                infos_papers = scrap_papers_page(papers_url, add)
+                add += len(papers_url)
+                populate_papers_data(conn, cursor, infos_papers)
                 papers_url = []
                 continue
         except Exception as e:
@@ -453,7 +460,7 @@ def parse_repec_author(conn, cursor):
 
 
     print("\n---Scrapping papers infos----\n")
-    all_papers = scrap_papers_page(papers_url)
+    all_papers = scrap_papers_page(papers_url, add)
     populate_papers_data(conn, cursor, all_papers)
 
     
