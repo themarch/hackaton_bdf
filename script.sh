@@ -4,6 +4,7 @@ php_my_admin=phpmyadmin
 nginx=webserver
 mysql=db
 app=app
+scrap=scrap
 
 echo "Launching Hackaton Banque de France"
 
@@ -26,6 +27,6 @@ docker-compose exec $app php artisan migrate
 
 echo "Run scrapper"
 
-
+docker-compose up $scrap
 
 echo "Done"

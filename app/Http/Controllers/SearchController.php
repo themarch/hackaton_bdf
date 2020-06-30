@@ -930,6 +930,7 @@ class SearchController extends Controller
     }
 
     public function profile(Request $request, $id) {
+        $classification = [];
         $query = DB::table('user')
             ->join('etablissement', 'user.id_etablissement_user1', '=', 'etablissement.uniqid')
             ->where('user.uniqid', '=', $id)
@@ -937,7 +938,19 @@ class SearchController extends Controller
         $article = DB::table('article')
             ->join('user', 'article.id_auteur', '=', 'user.uniqid')
             ->where('user.uniqid', '=', $id)
-            ->get();
+            ->distinct('article.name_paper')
+            ->get(['article.name_paper', 'article.link_paper']);
+
+        foreach ($article as $arti) {
+            array_push($classification,DB::table('article')
+            ->where('article.name_paper', '=', $arti->name_paper)
+            ->distinct()
+            ->get(['article.name_paper', 'article.JEL_1', 'article.JEL_2', 'article.JEL_3', 'article.JEL_4']));
+        }
+        $articles = DB::table('article')
+        ->join('user', 'article.id_auteur', '=', 'user.uniqid')
+        ->where('user.uniqid', '=', $id)
+        ->get();
         $etablissement = DB::table('user')
             ->join('etablissement', function ($join) {
             $join->on('user.id_etablissement_user1', '=', 'etablissement.uniqid')
@@ -946,44 +959,44 @@ class SearchController extends Controller
                 ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
             })
             ->where('user.uniqid', '=', $id)
-            ->get(['etablissement.nom_etablissement']);
+            ->get('etablissement.nom_etablissement');
         $ind = 0;
         $string = '';
-        while ($ind < count($article) - 1) {
-            if ($ind == (count($article) - 2))
-                $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1;
+        while ($ind < count($articles) - 1) {
+            if ($ind == (count($articles) - 2))
+                $string = $string . $articles[$ind]->JEL_1.' | '.$articles[$ind + 1]->JEL_1;
             else {
-                $string = $string . $article[$ind]->JEL_1.' | '.$article[$ind + 1]->JEL_1.' | ';
+                $string = $string . $articles[$ind]->JEL_1.' | '.$articles[$ind + 1]->JEL_1.' | ';
             }
             $ind = $ind + 1;
         }
         $ind1 = 0;
         $string1 = '';
-        while ($ind1 < count($article) - 1) {
-            if ($ind1 == (count($article) - 2))
-                $string1 = $string1 . $article[$ind1]->JEL_1.' | '.$article[$ind1 + 1]->JEL_1.' | '.$article[$ind1]->JEL_2.' | '.$article[$ind1 + 1]->JEL_2;
+        while ($ind1 < count($articles) - 1) {
+            if ($ind1 == (count($articles) - 2))
+                $string1 = $string1 . $articles[$ind1]->JEL_1.' | '.$articles[$ind1 + 1]->JEL_1.' | '.$articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2;
             else {
-                $string1 = $string1 . $article[$ind1]->JEL_1.' | '.$article[$ind1 + 1]->JEL_1.' | '.$article[$ind1]->JEL_2.' | '.$article[$ind1 + 1]->JEL_2.' | ';
+                $string1 = $string1 . $articles[$ind1]->JEL_1.' | '.$articles[$ind1 + 1]->JEL_1.' | '.$articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2.' | ';
             }
             $ind1 = $ind1 + 1;
         }
         $ind2 = 0;
         $string2 = '';
-        while ($ind2 < count($article) - 1) {
-            if ($ind2 == (count($article) - 2))
-                $string2 = $string2 . $article[$ind2]->JEL_1.' | '.$article[$ind2 + 1]->JEL_1.' | '.$article[$ind2]->JEL_2.' | '.$article[$ind2 + 1]->JEL_2.' | '.$article[$ind2]->JEL_3.' | '.$article[$ind2 + 1]->JEL_3;
+        while ($ind2 < count($articles) - 1) {
+            if ($ind2 == (count($articles) - 2))
+                $string2 = $string2 . $articles[$ind2]->JEL_1.' | '.$articles[$ind2 + 1]->JEL_1.' | '.$articles[$ind2]->JEL_2.' | '.$articles[$ind2 + 1]->JEL_2.' | '.$articles[$ind2]->JEL_3.' | '.$articles[$ind2 + 1]->JEL_3;
             else {
-                $string2 = $string2 . $article[$ind2]->JEL_1.' | '.$article[$ind2 + 1]->JEL_1.' | '.$article[$ind2]->JEL_2.' | '.$article[$ind2 + 1]->JEL_2.' | '.$article[$ind2]->JEL_3.' | '.$article[$ind2 + 1]->JEL_3.' | ';
+                $string2 = $string2 . $articles[$ind2]->JEL_1.' | '.$articles[$ind2 + 1]->JEL_1.' | '.$articles[$ind2]->JEL_2.' | '.$articles[$ind2 + 1]->JEL_2.' | '.$articles[$ind2]->JEL_3.' | '.$articles[$ind2 + 1]->JEL_3.' | ';
             }
             $ind2 = $ind2 + 1;
         }
         $ind3 = 0;
         $string3 = '';
-        while ($ind3 < count($article) - 1) {
-            if ($ind3 == (count($article) - 2))
-                $string3 = $string3 . $article[$ind3]->JEL_1.' | '.$article[$ind3 + 1]->JEL_1.' | '.$article[$ind3]->JEL_2.' | '.$article[$ind3 + 1]->JEL_2.' | '.$article[$ind3]->JEL_3.' | '.$article[$ind3 + 1]->JEL_3.' | '.$article[$ind3]->JEL_4.' | '.$article[$ind3 + 1]->JEL_4;
+        while ($ind3 < count($articles) - 1) {
+            if ($ind3 == (count($articles) - 2))
+                $string3 = $string3 . $articles[$ind3]->JEL_1.' | '.$articles[$ind3 + 1]->JEL_1.' | '.$articles[$ind3]->JEL_2.' | '.$articles[$ind3 + 1]->JEL_2.' | '.$articles[$ind3]->JEL_3.' | '.$articles[$ind3 + 1]->JEL_3.' | '.$articles[$ind3]->JEL_4.' | '.$articles[$ind3 + 1]->JEL_4;
             else {
-                $string3 = $string3 . $article[$ind3]->JEL_1.' | '.$article[$ind3 + 1]->JEL_1.' | '.$article[$ind3]->JEL_2.' | '.$article[$ind3 + 1]->JEL_2.' | '.$article[$ind3]->JEL_3.' | '.$article[$ind3 + 1]->JEL_3.' | '.$article[$ind3]->JEL_4.' | '.$article[$ind3 + 1]->JEL_4.' | ';
+                $string3 = $string3 . $articles[$ind3]->JEL_1.' | '.$articles[$ind3 + 1]->JEL_1.' | '.$articles[$ind3]->JEL_2.' | '.$articles[$ind3 + 1]->JEL_2.' | '.$articles[$ind3]->JEL_3.' | '.$articles[$ind3 + 1]->JEL_3.' | '.$articles[$ind3]->JEL_4.' | '.$articles[$ind3 + 1]->JEL_4.' | ';
             }
             $ind3 = $ind3 + 1;
         }
@@ -1000,6 +1013,7 @@ class SearchController extends Controller
             'str1' => $str1,
             'str2' => $str2,
             'str3' => $str3,
+            'classification' => $classification,
             'etablissement' => $etablissement,
         );
         return view ('profile')->with($data);

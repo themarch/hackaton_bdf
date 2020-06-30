@@ -182,14 +182,22 @@
                             menu_book
                             </span>
                         <span class="title_article"> <a target="blank" href="{{$arti->link_paper}}"> {{$arti->name_paper}} </a></span> </p>
-                    @if (isset($arti->JEL_1))
-                    <p class="information"> 
-                        <span class="material-icons icon_article ">
-                            info
-                            </span>
-                        <span class="title_article"> {{$arti->JEL_1}} @if (isset($arti->JEL_2)) <strong>&</strong> {{$arti->JEL_2}} @endif @if (isset($arti->JEL_3))<strong>&</strong> {{$arti->JEL_3}} @endif</span> </p>
-                            @endif
-                    </div>
+                    @foreach ($classification as $el)
+                        @foreach ($el as $e)
+                            @if (strcmp($e->name_paper, $arti->name_paper) == 0)
+                                <!-- @php print("JJJJJJJJJJJJJJJJ") @endphp -->
+                                <!-- @php var_dump($el) @endphp -->
+                                @if (isset($e->JEL_1))
+                                <p class="information"> 
+                                    <span class="material-icons icon_article ">
+                                        info
+                                        </span>
+                                    <span class="title_article"> {{$e->JEL_1}} @if (isset($e->JEL_2)) <strong>&</strong> {{$e->JEL_2}} @endif @if (isset($e->JEL_3))<strong>&</strong> {{$e->JEL_3}} @endif</span> </p>
+                                    @endif 
+                                @endif
+                            @endforeach
+                        @endforeach
+                        </div>
                     @endforeach
                 </div>
                 </div>
