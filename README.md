@@ -6,5 +6,5 @@ chmod u+x script.sh
 
 ./script.sh
 
-Une fois le script lancé, allez sur https://localhost
+Une fois le script lancé, allez sur http://localhost
 
