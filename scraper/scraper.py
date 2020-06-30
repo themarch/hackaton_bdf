@@ -434,6 +434,7 @@ def parse_repec_author(conn, cursor, args):
                 add += len(papers_url)
                 populate_papers_data(conn, cursor, infos_papers)
                 papers_url = []
+                print("export to csv")
                 if args.save:
                     if erased:
                         option = "a"
