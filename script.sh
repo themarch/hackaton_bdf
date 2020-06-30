@@ -27,6 +27,12 @@ docker-compose exec $app php artisan migrate
 
 echo "Run scrapper"
 
-docker-compose up $scrap
+docker-compose up -d $scrap
+
+until [ "`docker inspect -f {{.State.Running}} $scrap`"=="true" ]; do
+    sleep 0.1;
+done;
+
+docker-compose exec $scrap python ./scraper.py
 
 echo "Done"

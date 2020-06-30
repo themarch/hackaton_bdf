@@ -168,7 +168,7 @@ def personal_info_to_formated(infos, lst_index_uni):
     for key in cols:
         try:
             value = str(infos[key])
-            if value == "":
+            if value == "" or value == None:
                 value = None
         except KeyError:
             value = None
@@ -453,3 +453,4 @@ def parse_repec_author(conn, cursor):
 if __name__ == "__main__":
     conn, cursor = get_cursor('hackaton')
     parse_repec_author(conn, cursor)
+    conn.close()
