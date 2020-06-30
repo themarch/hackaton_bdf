@@ -208,7 +208,9 @@
                     person_outline
                     </span>
                 <p class="contact"> MES INFORMATIONS </p>
-                <p style="display: none;" class="id1">{{$info->uniqid}}</p>
+                @foreach ($query1 as $id)
+                    <p style="display: none;" class="id1">{{$id->uniqid}}</p>
+                @endforeach
                 <div class="perso">
                     @if (isset($info->telephone_user))
                     <p>

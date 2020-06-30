@@ -21,9 +21,11 @@ function delay(callback, ms) {
     }
   })
 
-  $(document).resize(function(){
+  $(window).resize(function(){
     var size = $(window).height();
+    console.log(size)
     var div_left = $('.left').height();
+    console.log(div_left)
     if (div_left > size) {
         $('.article_div').css('height', div_left - 270)
     }
