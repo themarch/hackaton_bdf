@@ -30,7 +30,17 @@ def get_cursor(db):
     return conn, conn.cursor()
 
 # --------- Parse author's informations
+
+
 """
+Retrieve all of the author informations when there is no span
+"""
+def personal_info_tr_dispatch(tr):
+    for td in tr.find_all("td"):
+        yield td.text
+
+"""
+Fomat the email adress
 """
 def get_email(lst):
     mail = ""
@@ -41,14 +51,8 @@ def get_email(lst):
             mail += word + "."
     return mail[:-1]
 
-
 """
-"""
-def personal_info_tr_dispatch(tr):
-    for td in tr.find_all("td"):
-        yield td.text
-
-"""
+Retrieve the email adress
 """
 def personal_info_email_dispatch(tr):
     mail = ""
@@ -59,6 +63,7 @@ def personal_info_email_dispatch(tr):
     return (tr.td['class'][0], mail)
 
 """
+Retrieve the author's personal website
 """
 def personal_info_homepage_dispatch(tr):
     try:
@@ -68,6 +73,7 @@ def personal_info_homepage_dispatch(tr):
     return (tr.td['class'][0], None)
 
 """
+Retrieve the author's adress
 """
 def personal_info_address_dispatch(tr):
     address = None
@@ -83,6 +89,7 @@ def personal_info_address_dispatch(tr):
     return (tr.td['class'][0], address)
 
 """
+Retrieve the author's phone number
 """
 def personal_info_phone_dispatch(tr):
     phone_nbr = None
@@ -98,15 +105,11 @@ def personal_info_phone_dispatch(tr):
     return (tr.td['class'][0], phone_nbr)
 
 """
-Get all of the author's personal infos
+Retrieve all of the author's personal infos
 """
 def scrap_author_personal_info(soup):
     if soup == None:
         return ()
-    #url_info = url + "#person"
-    #author_source = requests.get(url_info).text
-    #author_soup = BeautifulSoup(author_source, 'lxml')
-    #info_table = author_soup.find('table')
     info_table = soup.find('table')
     body = info_table.tbody
     infos = dict()
@@ -127,13 +130,12 @@ def scrap_author_personal_info(soup):
 
         if key != None:
             infos[key] = value
-#    print(infos)
     return infos
 
 
 
 """
-Get all of the author's university links
+Retrieve all of the author's affiliation
 """
 def scrap_author_affiliation(soup):
     if soup == None:
@@ -147,21 +149,18 @@ def scrap_author_affiliation(soup):
 
 
 """
-Get all of the author's articles links
+Retrieve all of the author's articles
 """
 def scrap_author_research(soup):
     if soup == None:
         return ()
-    #url_papers = url + "#research"
-    #papers_source = requests.get(url_papers).text
-    #papers_soup = BeautifulSoup(papers_source, 'lxml')
-    #research = papers_soup.find("div", {"id" : "research"})
     for ol in soup.find_all("ol", {"class": "list-group"}):
         for li in ol.findChildren("li", recursive=False):
             yield urllib.parse.urljoin(base_url, li.a['href'])
 
 
 """
+Format the personal infos of the authors
 """
 def personal_info_to_formated(infos, lst_index_uni):
     cols = ["First Name:", "Middle Name:", "Last Name:", "Suffix:", "RePEc Short-ID:", "emaillabel", "homelabel", "postallabel", "phonelabel", "Twitter", "Terminal Degree"]
@@ -194,6 +193,7 @@ def personal_info_to_formated(infos, lst_index_uni):
 
 
 """
+Scrap the author page to retrieve the personal infos
 """
 def scrap_author_page(urls_uni, count_uni, soup):
     info_author_soup = soup.find("div", {"id": "person"})
@@ -218,6 +218,7 @@ def scrap_author_page(urls_uni, count_uni, soup):
 
 
 """
+Retrieve the affiliations infos
 """
 def scrap_uni_contact(soup):
     body = soup.find("div", {"id" : "details"})
@@ -234,13 +235,14 @@ def scrap_uni_contact(soup):
     return (info)
 
 """
+Retrive the papers infos
 """
 def scrap_paper_page(url, index, soup):
     name = soup.find("div", {"id": "title"})
     if name == None:
         name_article = None
     else:
-        name_article = name.h1.text
+        name_article = name.h1.text.capitalize()
     classification = soup.find("div", {"id" : "more"})
     if classification == None:
         return None
@@ -318,8 +320,6 @@ def populate_user_data(conn, cursor, rows):
     conn.commit()
 
 # Populate the ETABLISSEMENT table
-"""
-"""
 def populate_uni_data(conn, cursor, rows):
     cols_uni_data_name ="`link_etablissement`, `nom_etablissement`, `pays_ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
     values_string = '%s, ' * UNI_DATA_LEN + '%s'
@@ -334,8 +334,6 @@ def populate_uni_data(conn, cursor, rows):
     conn.commit()
 
 # Populate the ARTICLE table
-"""
-"""
 def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
     values_string = '%s, ' * ARTICLE_DATA_LEN + '%s'
@@ -349,8 +347,6 @@ def populate_papers_data(conn, cursor, rows):
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
-"""
-"""
 def scrap_unis_page(lst_url):
     infos_uni = []
     reqs = (grequests.get(link) for link in lst_url)
@@ -455,34 +451,5 @@ def parse_repec_author(conn, cursor):
 
 
 if __name__ == "__main__":
-    #string = "D31 - Microeconomics - - Distribution"
-    #print([title, main, second, third])
-    #print(string.split('-', 1))
-    #jel_infos = re.findall(r'[A-Z]\d*(?: - )[\w\s]* - - [\w\s]* - - - [\w\s]*', string)
-    #print(jel_infos)
-    #url_uni = {"https://edirc.repec.org/data/edlseuk.html": 0, "https://edirc.repec.org/data/mccbede.html": 1}
-    #count_uni = 2
-    #url_test = "https://ideas.repec.org/e/pab7.html"
-    #source = requests.get(url_test)
-    #soup = BeautifulSoup(source.text, 'lxml')
-    #(url_uni, count_uni, info_author, urls_papers) = scrap_author_page(url_uni, count_uni, soup)
-    #urls_papers = [link for link in urls_papers]
-    #info_unis = scrap_unis_page([url for url in url_uni.keys()])
-    #export_csv([[url_test] + info_author], info_unis)
-    #url_paper = "https://ideas.repec.org/b/elg/eebook/15474.html"
-    #url_paper = "https://ideas.repec.org/p/imf/imfwpa/07-48.html"
-    #source = requests.get(url_paper)
-    #soup = BeautifulSoup(source.text, 'lxml')
-    #scrap_paper_page(url_paper, 0, soup)
-    #urls_papers = ["https://ideas.repec.org/p/gwi/wpaper/2018-10.html", "https://ideas.repec.org/p/gwi/wpaper/2017-15.html", "https://ideas.repec.org/p/gwi/wpaper/2017-2.html"]
-    #reqs_papers = (grequests.get(link) for link in urls_papers)
-    #resp=grequests.imap(reqs_papers, grequests.Pool(20))
-    #for (i, r) in enumerate(resp):
-    #    try:
-    #        soup = BeautifulSoup(r.text, 'lxml')
-    #        ret = scrap_paper_page(soup)
-    #        print(ret)
-    #    except Exception as e:
-    #        print("Unexpected output : {}".format(e), file=sys.stderr)
     conn, cursor = get_cursor('hackaton')
     parse_repec_author(conn, cursor)
