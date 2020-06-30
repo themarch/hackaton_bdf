@@ -935,6 +935,9 @@ class SearchController extends Controller
             ->join('etablissement', 'user.id_etablissement_user1', '=', 'etablissement.uniqid')
             ->where('user.uniqid', '=', $id)
             ->get();
+        $query1 = DB::table('user')
+                    ->where('user.uniqid', '=', $id)
+                    ->get();
         $article = DB::table('article')
             ->join('user', 'article.id_auteur', '=', 'user.uniqid')
             ->where('user.uniqid', '=', $id)
@@ -964,9 +967,9 @@ class SearchController extends Controller
         $string = '';
         while ($ind < count($articles) - 1) {
             if ($ind == (count($articles) - 2))
-                $string = $string . $articles[$ind]->JEL_1.' | '.$articles[$ind + 1]->JEL_1;
+                $string = $string . $articles[$ind]->JEL_2.' | '.$articles[$ind + 1]->JEL_2;
             else {
-                $string = $string . $articles[$ind]->JEL_1.' | '.$articles[$ind + 1]->JEL_1.' | ';
+                $string = $string . $articles[$ind]->JEL_2.' | '.$articles[$ind + 1]->JEL_2.' | ';
             }
             $ind = $ind + 1;
         }
@@ -974,9 +977,9 @@ class SearchController extends Controller
         $string1 = '';
         while ($ind1 < count($articles) - 1) {
             if ($ind1 == (count($articles) - 2))
-                $string1 = $string1 . $articles[$ind1]->JEL_1.' | '.$articles[$ind1 + 1]->JEL_1.' | '.$articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2;
+                $string1 = $string1 . $articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2.' | '.$articles[$ind1]->JEL_3.' | '.$articles[$ind1 + 1]->JEL_3;
             else {
-                $string1 = $string1 . $articles[$ind1]->JEL_1.' | '.$articles[$ind1 + 1]->JEL_1.' | '.$articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2.' | ';
+                $string1 = $string1 . $articles[$ind1]->JEL_2.' | '.$articles[$ind1 + 1]->JEL_2.' | '.$articles[$ind1]->JEL_3.' | '.$articles[$ind1 + 1]->JEL_3.' | ';
             }
             $ind1 = $ind1 + 1;
         }
@@ -1004,10 +1007,11 @@ class SearchController extends Controller
         $str1 = implode(' | ', array_unique(explode(' | ', $string1)));
         $str2 = implode(' | ', array_unique(explode(' | ', $string2)));
         $str3 = implode(' | ', array_unique(explode(' | ', $string3)));
-        if (count($query) == 0)
+        if (count($query1) == 0)
             return redirect('/');
         $data = array (
             'infos' => $query,
+            'query1' => $query1,
             'article' => $article,
             'str' => $str,
             'str1' => $str1,
