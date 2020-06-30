@@ -231,7 +231,11 @@ def scrap_uni_contact(soup):
     for line in body.text.split("\n"):
         if line == "" or ":" not in line:
             continue
-        info.append(line.split(":", 1)[1].strip())
+        tmp = line.split(":", 1)[1].strip()
+        if tmp is None or tmp == "":
+            info.append(None)
+        else:
+            info.append(tmp)
     return (info)
 
 """
