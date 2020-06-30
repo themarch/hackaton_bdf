@@ -280,7 +280,7 @@ def scrap_paper_page(url, index, soup):
         lst_class.append([url, name_article, index, title, main, second, third])
     return lst_class
 
-def scrap_papers_page(papers_url):
+def scrap_papers_page(papers_url, add):
     all_papers = []
     for (i, papers) in enumerate(papers_url):
         reqs_papers = (grequests.get(link) for link in papers)
@@ -288,7 +288,7 @@ def scrap_papers_page(papers_url):
         for r in resp_papers:
             try:
                 soup = BeautifulSoup(r.text, 'lxml')
-                infos_paper = scrap_paper_page(r.url, str(i+1), soup)
+                infos_paper = scrap_paper_page(r.url, str(i+add+1), soup)
                 if infos_paper == None:
                     continue
                 for info_paper in infos_paper:
@@ -428,15 +428,18 @@ def parse_repec_author(conn, cursor):
     papers_url = []
     reqs_authors = (grequests.get(link) for link in urls_author[:10])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
-    for r in resp_authors:
+    add = 0
+    for i, r in enumerate(resp_authors):
         try:
             soup = BeautifulSoup(r.text, 'lxml')
             (url_uni, count_uni, info_author, urls_papers) = scrap_author_page(url_uni, count_uni, soup)
             info = [r.url] + info_author
             info_authors.append(info)
             papers_url.append(urls_papers)
-            if len(papers_url) > 50000:
-                populate_papers_data(conn, cursor, papers_url)
+            if len(papers_url) > 10000:
+                infos_papers = scrap_papers_page(papers_url, add)
+                add += len(papers_url)
+                populate_papers_data(conn, cursor, infos_papers)
                 papers_url = []
                 continue
         except Exception as e:
