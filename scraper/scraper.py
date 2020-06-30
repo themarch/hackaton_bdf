@@ -13,7 +13,8 @@ import sys
 
 base_url = "https://ideas.repec.org"
 USER_DATA_LEN = 17
-UNI_DATA_LEN = 7
+UNI_DATA_LEN = 8
+ARTICLE_DATA_LEN = 7
 
 def get_cursor(db):
     try:
@@ -330,10 +331,10 @@ def populate_user_data(conn, cursor, rows):
 """
 """
 def populate_uni_data(conn, cursor, rows):
-    cols_uni_data_name ="`nom_etablissement`, `pays-ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
+    cols_uni_data_name ="`link_etablissement`, `nom_etablissement`, `pays_ville_etablissement`,`site_etablissement`, `email_etablissement`,`phone_etablissement`,`fax_etablissement`,`adresse_etablissement`, `function_etablissement`"
     values_string = '%s, ' * UNI_DATA_LEN + '%s'
 
-    query = f"""INSERT INTO ETABLISSEMENT ({cols_uni_data_name}) VALUES ({values_string})"""
+    query = f"""INSERT INTO etablissement ({cols_uni_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
@@ -347,9 +348,9 @@ def populate_uni_data(conn, cursor, rows):
 """
 def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
-    values_string = '%s, ' * UNI_DATA_LEN + '%s'
+    values_string = '%s, ' * ARTICLE_DATA_LEN + '%s'
  
-    query = f"""INSERT INTO ARTICLE ({cols_papers_data_name}) VALUES ({values_string})"""
+    query = f"""INSERT INTO article ({cols_papers_data_name}) VALUES ({values_string})"""
     try:
         cursor.executemany(query, rows)
     except Exception as e: 
