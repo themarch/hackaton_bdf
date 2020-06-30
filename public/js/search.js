@@ -42,7 +42,7 @@ $(document).ready(function(){
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;
-                    if (size > 6) {
+                    if (size >= 5) {
                         $('#result').css('overflow-y', 'scroll');
                     }
                 },
@@ -83,7 +83,7 @@ $(document).ready(function(){
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;
-                    if (size > 6) {
+                    if (size >= 5) {
                         $('#result').css('overflow-y', 'scroll');
                     }
                 },
@@ -124,7 +124,7 @@ $(document).ready(function(){
                     $('#result').css('display', 'block');
                     $('#result').html(data);
                     size = $('.round').length;
-                    if (size > 6) {
+                    if (size >= 5) {
                         $('#result').css('overflow-y', 'scroll');
                     }
                 },
