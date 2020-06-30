@@ -277,7 +277,7 @@ def scrap_paper_page(url, index, soup):
         except:
             second = left
             third = None
-        lst_class.append([url, name_article, index, title, main, second, third])
+        lst_class.append([url, name_article, index, li.text, title, main, second, third])
     return lst_class
 
 def scrap_papers_page(papers_url, add):
@@ -350,12 +350,15 @@ def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
     values_string = '%s, ' * ARTICLE_DATA_LEN + '%s'
  
+    # print("HDEEEEEEE")
+    print(len(rows[0]))
+
     query = f"""INSERT INTO article ({cols_papers_data_name}) VALUES ({values_string})"""
-    try:
+    try: 
         cursor.executemany(query, rows)
     except Exception as e: 
-        print(rows)
-        print(query)
+        print(rows[391])
+        # # print(query)
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
@@ -457,7 +460,7 @@ def parse_repec_author(conn, cursor):
 
 
     print("\n---Scrapping papers infos----\n")
-    all_papers = scrap_papers_page(papers_url)
+    all_papers = scrap_papers_page(papers_url, add)
     populate_papers_data(conn, cursor, all_papers)
 
     
