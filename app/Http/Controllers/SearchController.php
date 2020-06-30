@@ -599,7 +599,8 @@ class SearchController extends Controller
                                         ->orOn('user.id_etablissement_user3', '=', 'etablissement.uniqid')
                                         ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                     })
-                                ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')                        
+                                ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')
+                                ->distinct('user.uniqid')                        
                                 ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
                     }
                 }
@@ -1051,24 +1052,57 @@ class SearchController extends Controller
             ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%')
             ->orWhere('article.JEL_name', 'like', '%' . $request->competence.'%');
         })
-        ->get();
-        $total_row = $article->count();
+        ->get(['article.name_paper', 'article.link_paper'])
+        ->toArray();
+
+        $new_article = [];
+        $classification = [];
+        $i = 0;
+        while ($i < count($article)) {
+            $to_remove = false;
+            foreach (array_slice($article, 0, $i) as $el) {
+                if (strcmp($el->name_paper, $article[$i]->name_paper) == 0) {
+                    $to_remove = true;
+                    break ;
+                }
+            }
+            if ($to_remove) {
+                array_splice($article, $i, $i + 1);
+            } else {
+                $i += 1;
+            }
+        }
+
+        foreach ($article as $arti) {
+            array_push($classification,DB::table('article')
+            ->where('article.name_paper', '=', $arti->name_paper)
+            ->distinct()
+            ->get(['article.name_paper', 'article.JEL_1', 'article.JEL_2', 'article.JEL_3', 'article.JEL_4']));
+        }
+        
+
+        $total_row = count($article);
             if($total_row > 0)
             {
                 foreach($article as $row)
                 {
                     $output = '';
-                    $link = "/profile/" . $row->uniqid;
                     $output =  "<p> 
                     <span class='material-icons icon_article'>
                         menu_book
                         </span>
-                    <span class='title_article'> <a target='blank' href=" . $row->link_paper . ">" . $row->name_paper . "</a></span> </p>
-                <p class='information'> 
-                    <span class='material-icons icon_article '>
-                        info
-                        </span>
-                    <span class='title_article'>" . $row->JEL_1 . "<strong> & </strong>" . $row->JEL_2 . "<strong> & </strong>" . $row->JEL_3 . "</span> </p>";
+                    <span class='title_article'> <a target='blank' href=" . $row->link_paper . ">" . $row->name_paper . "</a></span> </p>";
+                       foreach ($classification as $el) {
+                        foreach ($el as $e) {
+                            if (strcmp($e->name_paper, $arti->name_paper) == 0) {
+                                $output = $output . "<p class='information'> 
+                                    <span class='material-icons icon_article '>
+                                        info
+                                        </span>
+                                    <span class='title_article'>" . " " . $e->JEL_1 . "<strong>&</strong> " . $e->JEL_2 . "</span> </p>";
+                                }
+                            }
+                        }
                     echo ($output);
                 }
             }
