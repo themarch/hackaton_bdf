@@ -418,7 +418,7 @@ def parse_repec_author(conn, cursor, args):
     #and links to author's papers
     info_authors = []
     papers_url = []
-    reqs_authors = (grequests.get(link) for link in urls_author[:10])
+    reqs_authors = (grequests.get(link) for link in urls_author)
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
     add = 0
     erased = False
