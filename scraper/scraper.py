@@ -3,6 +3,7 @@ gevent.monkey.patch_all()
 
 from bs4 import BeautifulSoup
 import re
+import argparse
 import numpy
 import pandas
 import requests
@@ -15,6 +16,16 @@ base_url = "https://ideas.repec.org"
 USER_DATA_LEN = 17
 UNI_DATA_LEN = 8
 ARTICLE_DATA_LEN = 7
+
+def get_args():
+    """
+    Parse the input
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--save", "-s",
+                        help="Use this option if you want to export the database in a csv file", action="store_false")
+    return parser.parse_args()
+
 
 def get_cursor(db):
     try:
@@ -168,7 +179,7 @@ def personal_info_to_formated(infos, lst_index_uni):
     for key in cols:
         try:
             value = str(infos[key])
-            if value == "" or value == None:
+            if value == "" or value == "None":
                 value = None
         except KeyError:
             value = None
@@ -369,28 +380,19 @@ def scrap_unis_page(lst_url):
 
 """
 """
-def export_csv(authors, uni, papers):
-    cols_user_data = ["link_user", "prenom_user", "surnom_user", "nom_user", "all_name", "all_name_invers", "suffix_user", "repec_short-id", "email_user", "homepage_user", "adresse_user", "telephone_user", "twitter_user", "degree_user", "id_etablissement_user1", "id_etablissement_user2", "id_etablissement_user3", "id_etablissement_user4"]
-    data_authors = numpy.array(authors)
-    df = pandas.DataFrame(data_authors, columns=cols_user_data)
-    df.to_csv("authors.csv", index=False)
+def export_csv(filename, rows, column_names, option):
+    data = numpy.array(rows)
+    df = pandas.DataFrame(data_authors, columns=column_names)
+    df.to_csv(filename, index=False, mode=option)
 
-    cols_uni_data = ["link_etablissement", "nom_etablissement", "pays-ville_etablissement","site_etablissement", "email_etablissement","phone_etablissement","fax_etablissement","adresse_etablissement", "function_etablissement"]
-    data_uni = numpy.array(uni)
-    df = pandas.DataFrame(data_uni, columns=cols_uni_data)
-    df.to_csv("uni.csv", index=False)
-    
-    cols_papers_data = ["link_paper", "name_paper", "id_auteur", "JEL_name", "JEL_1", "JEL_2","JEL_3", "JEL_4"]
-    data_papers = numpy.array(papers)
-    df = pandas.DataFrame(data_papers, columns=cols_papers_data)
-    df.to_csv("papers.csv", index=False)
 
 """
 This function should go throught all the names gathered in `ideas.repec.org`.
 It looks for their homepage, their names, and the number of articles written
 """
-def parse_repec_author(conn, cursor):
+def parse_repec_author(conn, cursor, args):
     url_repec = "https://ideas.repec.org/i/eall.html"
+    cols_papers_data_csv = ["link_paper", "name_paper", "id_auteur", "JEL_name", "JEL_1", "JEL_2","JEL_3", "JEL_4"]
 
     source = requests.get(url_repec)
     soup = BeautifulSoup(source.text, 'lxml')
@@ -419,6 +421,7 @@ def parse_repec_author(conn, cursor):
     reqs_authors = (grequests.get(link) for link in urls_author[:10])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
     add = 0
+    erased = False
     for i, r in enumerate(resp_authors):
         try:
             soup = BeautifulSoup(r.text, 'lxml')
@@ -426,11 +429,18 @@ def parse_repec_author(conn, cursor):
             info = [r.url] + info_author
             info_authors.append(info)
             papers_url.append(urls_papers)
-            if len(papers_url) > 10000:
+            if len(papers_url) > 2:
                 infos_papers = scrap_papers_page(papers_url, add)
                 add += len(papers_url)
                 populate_papers_data(conn, cursor, infos_papers)
                 papers_url = []
+                if args.save:
+                    if erased:
+                        option = "a"
+                    else:
+                        option = "w"
+                    export_csv("papers.csv", info_papers, cols_papers_data_csv, option)
+                    erased = True
                 continue
         except Exception as e:
             print("Unexpected output : {}".format(e), file=sys.stderr)
@@ -445,6 +455,14 @@ def parse_repec_author(conn, cursor):
     info_unis = scrap_unis_page([url for url in url_uni.keys()])
     populate_uni_data(conn, cursor, info_unis)
 
+    if args.save:
+        cols_user_data_csv = ["link_user", "prenom_user", "surnom_user", "nom_user", "all_name", "all_name_invers", "suffix_user", "repec_short-id", "email_user", "homepage_user", "adresse_user", "telephone_user", "twitter_user", "degree_user", "id_etablissement_user1", "id_etablissement_user2", "id_etablissement_user3", "id_etablissement_user4"]
+        cols_uni_data_csv = ["link_etablissement", "nom_etablissement", "pays-ville_etablissement","site_etablissement", "email_etablissement","phone_etablissement","fax_etablissement","adresse_etablissement", "function_etablissement"]
+
+        export_csv("authors.csv", info_authors, cols_user_data_csv, "w")
+        export_csv("affiliations.csv", info_unis, cols_uni_data_csv, "w")
+        export_csv("papers.csv", info_papers, cols_papers_data_csv, "w")
+
 
     print("\n---Scrapping papers infos----\n")
     all_papers = scrap_papers_page(papers_url, add)
@@ -455,6 +473,7 @@ def parse_repec_author(conn, cursor):
 
 
 if __name__ == "__main__":
+    args = get_args()
     conn, cursor = get_cursor('hackaton')
-    parse_repec_author(conn, cursor)
+    parse_repec_author(conn, cursor, args)
     conn.close()
