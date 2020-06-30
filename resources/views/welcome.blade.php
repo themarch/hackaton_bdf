@@ -33,7 +33,6 @@
                 <div style="display: none;" id="error"> </div>
             </div>
         </div>
-        <p style="float: right; margin-right: 10px;">&copy; 2020 Aguthe<p>
     </body>
 </html>
 
