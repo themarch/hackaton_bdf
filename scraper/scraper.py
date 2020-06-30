@@ -168,7 +168,7 @@ def personal_info_to_formated(infos, lst_index_uni):
     for key in cols:
         try:
             value = str(infos[key])
-            if value == "" or value == None:
+            if value == "" or value == "None":
                 value = None
         except KeyError:
             value = None
