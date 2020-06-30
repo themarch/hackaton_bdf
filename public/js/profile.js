@@ -12,7 +12,24 @@ function delay(callback, ms) {
 
   $(document).ready(function(){
     var size = $(window).height();
-    $('.article_div').css('height', size - 270)
+    var div_left = $('.left').height();
+    if (div_left > size) {
+        $('.article_div').css('height', div_left - 270)
+    }
+    else {
+        $('.article_div').css('height', size - 270)
+    }
+  })
+
+  $(document).resize(function(){
+    var size = $(window).height();
+    var div_left = $('.left').height();
+    if (div_left > size) {
+        $('.article_div').css('height', div_left - 270)
+    }
+    else {
+        $('.article_div').css('height', size - 270)
+    }
   })
 
 $(document).ready(function(){
