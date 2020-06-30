@@ -307,14 +307,6 @@ def scrap_papers_page(papers_url, add):
 def populate_user_data(conn, cursor, rows):
     cols_user_data_name = "`link_user`, `prenom_user`, `surnom_user`, `nom_user`, `all_name`, `all_name_invers`, `suffix_user`, `repec_shortid`, `email_user`, `homepage_user`, `adresse_user`, `telephone_user`, `twitter_user`, `degree_user`, `id_etablissement_user1`, `id_etablissement_user2`, `id_etablissement_user3`, `id_etablissement_user4`"
     values_string = '%s, ' * USER_DATA_LEN + '%s'
- 
-    
-    # for jack in rows[0]:
-    #     print(type(jack))
-    # print("youhou")
-    # print(len(rows[0]))
-
-    # rows = [["NULL" if el == None else str(el) for el in lst] for lst in rows]
 
     query = f"""INSERT INTO user ({cols_user_data_name}) VALUES ({values_string})"""
     try:
@@ -322,8 +314,6 @@ def populate_user_data(conn, cursor, rows):
     except Exception as e: 
         print(rows)
         print(query)
-        # for jack in rows:
-        #     print(type(jack[0]))
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
@@ -349,16 +339,13 @@ def populate_uni_data(conn, cursor, rows):
 def populate_papers_data(conn, cursor, rows):
     cols_papers_data_name ="`link_paper`, `name_paper`,`id_auteur`, `JEL_name`,`JEL_1`,`JEL_2`,`JEL_3`,`JEL_4`"
     values_string = '%s, ' * ARTICLE_DATA_LEN + '%s'
- 
-    # print("HDEEEEEEE")
-    print(len(rows[0]))
 
     query = f"""INSERT INTO article ({cols_papers_data_name}) VALUES ({values_string})"""
     try: 
         cursor.executemany(query, rows)
     except Exception as e: 
-        print(rows[391])
-        # # print(query)
+        print(rows)
+        print(query)
         sys.exit("Unexpected output : {}".format(e))
     conn.commit()
 
