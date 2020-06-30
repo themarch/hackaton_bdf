@@ -393,7 +393,7 @@ def export_csv(authors, uni, papers):
     df = pandas.DataFrame(data_uni, columns=cols_uni_data)
     df.to_csv("uni.csv", index=False)
     
-    cols_papers_data = ["link_paper", "name_paper", "id_auteur", "JEL_1", "JEL_2","JEL_3", "JEL_4"]
+    cols_papers_data = ["link_paper", "name_paper", "id_auteur", "JEL_name", "JEL_1", "JEL_2","JEL_3", "JEL_4"]
     data_papers = numpy.array(papers)
     df = pandas.DataFrame(data_papers, columns=cols_papers_data)
     df.to_csv("papers.csv", index=False)
