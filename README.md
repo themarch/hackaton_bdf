@@ -1,6 +1,6 @@
 # hackaton_bdf
 
-git clone git@github.com:themarch/hackaton_bdf.git
+git clone "git@github.com:themarch/hackaton_bdf.git"
 
 chmod u+x script.sh
 
