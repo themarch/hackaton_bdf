@@ -53,6 +53,7 @@ html, body {
 }
 
 .img {
+    margin-top: 5px;
     height: 250px;
     width: 250px;
 }
@@ -91,5 +92,6 @@ html, body {
 }
 
 .m-b-md {
+    margin-top: -10px;
     margin-bottom: 30px;
 }
