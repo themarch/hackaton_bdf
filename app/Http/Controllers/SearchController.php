@@ -942,8 +942,24 @@ class SearchController extends Controller
             ->join('user', 'article.id_auteur', '=', 'user.uniqid')
             ->where('user.uniqid', '=', $id)
             ->distinct('article.name_paper')
-            ->get(['article.name_paper', 'article.link_paper']);
-        dd($article);
+            ->get(['article.name_paper', 'article.link_paper'])
+            ->toArray();
+        $new_article = [];
+        $i = 0;
+        while ($i < count($article)) {
+            $to_remove = false;
+            foreach (array_slice($article, 0, $i) as $el) {
+                if (strcmp($el->name_paper, $article[$i]->name_paper) == 0) {
+                    $to_remove = true;
+                    break ;
+                }
+            }
+            if ($to_remove) {
+                array_splice($article, $i, $i + 1);
+            } else {
+                $i += 1;
+            }
+        }
         foreach ($article as $arti) {
             array_push($classification,DB::table('article')
             ->where('article.name_paper', '=', $arti->name_paper)
