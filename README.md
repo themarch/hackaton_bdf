@@ -40,7 +40,7 @@ Nous avons décidé de faire une application fonctionnant en 3 temps  :
 
 1. Un premier temps d'installation de Docker et de ses conteneurs (~30 minutes)
 
-2. Un second temps de scraping de la data (30-35 heures en asynchrone)
+2. Un second temps de scraping de la data (30-35 heures en asynchrone[beaucoup moins avec la fibre])
 
 3. Un dernier temps de navigation au travers de l'interface web (Quasi-instantané)
 
@@ -103,7 +103,6 @@ Les spécialités d'un économiste sont à portée de quelques clics :
 ![docker_prerequisites](./image_readme/image-20200701025116850.png)<u>*Voici les ressources sur lesquelles l'interface a été testée*</u>
 
 *Démarrer l'interface*
-
 ```bash
 1. Cloner le repo: `gcl https://github.com/themarch/hackaton_bdf.git` 
 2. Aller dans le dossier: `cd hackaton_bdf`
@@ -118,6 +117,38 @@ Pour voir Phpmyadmin, entrez cette adresse : `http://localhost:7000`, user et mo
 
 ```
 
+> Attention, l'utilisation du script réinitialise la base de données. Si vous voulez simplement fermer les containers pour les rouvrir plus tard, voici les commandes à effectuer :
+
+```bash
+1. Pour Down les containers :
+	-> `docker-compose down`
+2. Pour Up les containers :
+	-> `docker-compose up`
+```
+
+
+
+*Intégrer la périodicité*
+
+```bash
+Afin de palier aux soucis de compatibilité entre systèmes d\'exploitations, nous avons décidé de faire en sorte que la mise à jour hebdomadaire soit implémentée de votre côté. 
+
+Ainsi, il vous faut lancer dans un cron le script `./script.sh`, de préférence le vendredi soir. Compte tenu du temps de scrapping, votre database sera à jour tous les lundis matins sans faute
+```
+
+
+
+*Script de filtrage du nombre d'économistes scrappés*
+
+```bash
+Une option est présente dans le script pour ne séléctionner qu'une certaine quantité d'utilisateurs. Il suffit de faire "./script.sh nb_de_personne"
+
+Si je veux uniquement 200 personnes, il suffit donc de faire "./script.sh 200"
+Si vous ne mettez pas d'argument, il n'y aura donc pas de limite !
+```
+
+
+
 *Exporter en CSV*
 
 ```bash
@@ -127,4 +158,5 @@ Pour exporter en CSV, 2 façons s\'ouvrent à vous :
 ```
 
 
-Nous espèrons que cette documentation vous est exhaustive vous aiguillera dans la découverte et la délibération du jugement. N'hésitez pas à nous contacter si vous avez des questions
+
+Nous espèrons que cette documentation vous est exhaustive et qu'elle vous aiguillera dans la découverte et la délibération du jugement. N'hésitez pas à nous contacter si vous avez des questions
