@@ -10,7 +10,7 @@ Nous avons choisi de construire l'application sur Docker, afin d'avoir un enviro
 
 ![schema_0](./image_readme/schema_0.png)
 
-Voici une représentation succinte des interactions ayant lieues entre les conteneurs quand l'application, hébergée en local, est chargée sur votre navigateur
+Voici une représentation succinte des interactions ayant lieu entre les conteneurs quand l'application, hébergée en local, est chargée sur votre navigateur
 
 ![schema_1](./image_readme/schema_1.png)
 
@@ -23,7 +23,7 @@ Nous avons aussi intégré, comme vous le verrez plus bas, un export des donnée
 
 ##### *Le rendu*
 
-Comme dans tout projet, nous avons dû composer avec des ressources limitées : notre temps principalement. Nous avons ainsi dû faire des choix réfléchis afin de délivrer à l'utilisateur final une expérience de navigation de qualité, tout en réussissant à répondre à ce challenge en parallèle de nos études.
+Comme dans tout projet, nous avons dû composer avec des ressources limitées : notre temps principalement. Nous avons donc fait des choix réfléchis afin de délivrer à l'utilisateur final une expérience de navigation de qualité, tout en réussissant à répondre à ce challenge en parallèle de nos études.
 
 Ainsi, notre application a :
 
@@ -46,7 +46,7 @@ Nous avons décidé de faire une application fonctionnant en 3 temps  :
 
 Ce choix de découpage a été décidé afin de permettre une expérience de navigation instantanée et possible sans internet une fois la base de donnée chargée. Étant donné qu'il ne devrait pas y avoir d'upload journalier de centaines de nouveaux articles, nous avons pensé qu'une mise-à-jour hebdomadaire, le weekend, ne serait pas dérangeante.
 
-Sous cet angle, les 35 heures de scrapping seront transparents pour l'utilisateur. Libre à vous d'utiliser `Kubenetes`  ou ` Ansible` pour gérer le renouvellement hebdomadaire des informations.
+Sous cet angle, les 35 heures de scrapping seront transparents pour l'utilisateur. Libre à vous d'utiliser `Kubernetes`  ou ` Ansible` pour gérer le renouvellement hebdomadaire des informations.
 
 *Scrapping*
 
@@ -107,8 +107,8 @@ Les spécialités d'un économiste sont à portée de quelques clics :
 ```bash
 1. Cloner le repo: `gcl https://github.com/themarch/hackaton_bdf.git` 
 2. Aller dans le dossier: `cd hackaton_bdf`
-3. Rendez le script d\installation exécutable: `chmod u+x script.sh`
-4. Exécutez le script: `./script.sh`
+3. Render le script d\installation exécutable: `chmod u+x script.sh`
+4. Exécuter le script: `./script.sh`
 -----
 Attendre. 
 
@@ -127,4 +127,4 @@ Pour exporter en CSV, 2 façons s\'ouvrent à vous :
 ```
 
 
-Nous espèrons que cette documentation exhaustive vous aiguillera dans la découverte et la délibération du jugement. N'hésitez pas à nous contacter si vous avez des questions
+Nous espèrons que cette documentation vous est exhaustive vous aiguillera dans la découverte et la délibération du jugement. N'hésitez pas à nous contacter si vous avez des questions
