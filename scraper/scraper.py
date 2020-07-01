@@ -429,9 +429,12 @@ def parse_repec_author(conn, cursor, args):
             info = [r.url] + info_author
             info_authors.append(info)
             papers_url.append(urls_papers)
-            if len(papers_url) > 2000:
+            if len(papers_url) > 50:
+                print("50 authors scrapped")
+                print("Begin scrap papers")
                 info_papers = scrap_papers_page(papers_url, add)
                 add += len(papers_url)
+                print("Populate database")
                 populate_papers_data(conn, cursor, info_papers)
                 papers_url = []
                 if args.save:
