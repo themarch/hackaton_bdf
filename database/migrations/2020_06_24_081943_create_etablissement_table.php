@@ -19,11 +19,11 @@ class CreateEtablissementTable extends Migration
             $table->string('nom_etablissement', '2048')->nullable();
             $table->string('pays_ville_etablissement', '2048')->nullable();
             $table->string('site_etablissement', '2048')->nullable();
-            $table->string('email_etablissement', '2048')->nullable();
-            $table->string('phone_etablissement', '2048')->nullable();
-            $table->string('fax_etablissement', '2048')->nullable();
+            $table->string('email_etablissement', '500')->nullable();
+            $table->string('phone_etablissement', '500')->nullable();
+            $table->string('fax_etablissement', '500')->nullable();
             $table->string('adresse_etablissement', '2048')->nullable();
-            $table->string('function_etablissement', '2048')->nullable();
+            $table->string('function_etablissement', '500')->nullable();
             $table->timestamps();
         });
     }
