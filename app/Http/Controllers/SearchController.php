@@ -31,7 +31,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence == NULL) {
                         //Faire recherche avec uniquement filtre etablissement
@@ -43,7 +44,8 @@ class SearchController extends Controller
                                     ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                 })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence
@@ -64,7 +66,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -85,7 +88,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence == NULL) {
                         //Faire recherche avec filtre etablissement + filtre nom
@@ -96,7 +100,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })  
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -116,7 +121,8 @@ class SearchController extends Controller
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })
                                 ->distinct()  
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else {
                         //Faire recherche avec uniquement filtre nom
@@ -126,7 +132,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })  
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
             }
@@ -151,7 +158,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence == NULL) {
                         //Faire recherche avec uniquement filtre etablissement
@@ -163,7 +171,8 @@ class SearchController extends Controller
                                     ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                 })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence
@@ -184,7 +193,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -214,7 +224,8 @@ class SearchController extends Controller
                                     });
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence == NULL) {
                         //Faire recherche avec filtre etablissement + filtre nom
@@ -234,7 +245,8 @@ class SearchController extends Controller
                                     ->where('user.nom_user', 'like','%' . $request->name.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->etablissement != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -270,7 +282,8 @@ class SearchController extends Controller
                                     });
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else {
                         //Faire recherche avec uniquement filtre nom
@@ -279,13 +292,29 @@ class SearchController extends Controller
                                 ->where('user.prenom_user', 'like', '%' . $request->name.'%')
                                 ->orWhere('user.nom_user', 'like', '%' . $request->name.'%')
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
             }
-            $total_row = $sql->count();
+            $total_row = count($sql);
             if($total_row > 0)
-            {  
+            {
+                $i = 0;
+                while ($i < count($sql)) {
+                    $to_remove = false;
+                    foreach (array_slice($sql, 0, $i) as $el) {
+                        if (strcmp($el->all_name, $sql[$i]->all_name) == 0) {
+                            $to_remove = true;
+                            break ;
+                        }
+                    }
+                    if ($to_remove) {
+                        array_splice($sql, $i, $i + 1);
+                    } else {
+                        $i += 1;
+                    }
+                }
                 if (isset($sqq)) {
                     foreach($sql as $row)
                     {
@@ -347,7 +376,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence == NULL) {
                         //Faire recherche avec uniquement filtre name
@@ -357,7 +387,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre name AND filtre compétence
@@ -376,7 +407,8 @@ class SearchController extends Controller
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -399,7 +431,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence == NULL) {
                         //Faire recherche avec filtre name + filtre etablissement
@@ -415,7 +448,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 }) 
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -440,7 +474,8 @@ class SearchController extends Controller
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 }) 
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else {
                         //Faire recherche avec uniquement filtre etablissement
@@ -452,7 +487,8 @@ class SearchController extends Controller
                                     ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                 })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')                        
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
             }
@@ -472,7 +508,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence == NULL) {
                         //Faire recherche avec uniquement filtre name
@@ -480,7 +517,8 @@ class SearchController extends Controller
                                 ->join('etablissement', 'user.id_etablissement_user1', '=', 'etablissement.uniqid')
                                 ->where('user.prenom_user', 'like', '%' . $request->name.'%')
                                 ->orWhere('user.nom_user', 'like', '%' . $request->name.'%')
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre name AND filtre compétence
@@ -509,7 +547,8 @@ class SearchController extends Controller
                                     });
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -532,7 +571,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence == NULL) {
                         //Faire recherche avec filtre name + filtre etablissement
@@ -551,7 +591,8 @@ class SearchController extends Controller
                                     $q->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')
                                     ->where('user.nom_user', 'like', '%' . $request->name.'%');
                                 })
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->competence != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -586,10 +627,8 @@ class SearchController extends Controller
                                     });
                                 })
                                 ->distinct()
-                                //IL manque WHERE ETABLISSEMENT WHERE COMPETENCE (WHERE PRENOM OR WHERE NAME)
-                                //->orWhere('user.nom_user', 'like', $request->name.'%')
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
-                    }
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();                    }
                     else {
                         //Faire recherche avec uniquement filtre etablissement
                         $sql = DB::table('user')
@@ -600,14 +639,30 @@ class SearchController extends Controller
                                         ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                     })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')
-                                ->distinct('user.uniqid')                        
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->distinct('user.all_name')                        
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
             }
-            $total_row = $sql->count();
+            $total_row = count($sql);
             if($total_row > 0)
             {
+                $i = 0;
+                while ($i < count($sql)) {
+                    $to_remove = false;
+                    foreach (array_slice($sql, 0, $i) as $el) {
+                        if (strcmp($el->all_name, $sql[$i]->all_name) == 0) {
+                            $to_remove = true;
+                            break ;
+                        }
+                    }
+                    if ($to_remove) {
+                        array_splice($sql, $i, $i + 1);
+                    } else {
+                        $i += 1;
+                    }
+                }
                 foreach($sql as $row)
                 {
                     $output = '';
@@ -645,7 +700,8 @@ class SearchController extends Controller
                                     ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                 })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')                        
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement == NULL) {
                         //Faire recherche avec uniquement filtre name
@@ -655,7 +711,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement != NULL) {
                         //Faire recherche avec filtre name AND filtre etablissement
@@ -671,7 +728,8 @@ class SearchController extends Controller
                                     $q->where('user.all_name', 'like', '%' . $request->name.'%')
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 })                    
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -694,7 +752,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement == NULL) {
                         //Faire recherche avec filtre name + filtre competence
@@ -713,7 +772,8 @@ class SearchController extends Controller
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 }) 
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -738,7 +798,8 @@ class SearchController extends Controller
                                     ->orWhere('user.all_name_invers', 'like', '%' . $request->name.'%');
                                 }) 
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else {
                         //Faire recherche avec uniquement filtre competence
@@ -756,7 +817,8 @@ class SearchController extends Controller
                                 ->orWhere('article.JEL_name', 'like', '%' . $request->competence.'%')
                                 ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%')
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
             }
@@ -773,7 +835,8 @@ class SearchController extends Controller
                                     ->orOn('user.id_etablissement_user4', '=', 'etablissement.uniqid');
                                 })
                                 ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%')                        
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement == NULL) {
                         //Faire recherche avec uniquement filtre name
@@ -781,7 +844,8 @@ class SearchController extends Controller
                                 ->join('etablissement', 'user.id_etablissement_user1', '=', 'etablissement.uniqid')
                                 ->where('user.prenom_user', 'like', '%' . $request->name.'%')
                                 ->orWhere('user.nom_user', 'like', '%' . $request->name.'%')
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement != NULL) {
                         //Faire recherche avec filtre name AND filtre etablissement
@@ -800,7 +864,8 @@ class SearchController extends Controller
                                     $q->where('user.nom_user', 'like', $request->name.'%')
                                     ->where('etablissement.nom_etablissement', 'like', '%' . $request->etablissement.'%');
                                 })                       
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                 }
                 else {
@@ -823,7 +888,8 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement == NULL) {
                         //Faire recherche avec filtre name + filtre competence
@@ -851,7 +917,8 @@ class SearchController extends Controller
                                     });
                                 }) 
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else if ($request->name != NULL && $request->etablissement != NULL) {
                         //Faire recherche avec filtre etablissement AND filtre compétence AND filtre nom
@@ -886,7 +953,8 @@ class SearchController extends Controller
                                     });
                                 }) 
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();
                     }
                     else {
                         //Faire recherche avec uniquement filtre competence
@@ -901,13 +969,29 @@ class SearchController extends Controller
                                     ->orWhere('article.JEL_4', 'like', '%' . $request->competence.'%');
                                 })
                                 ->distinct()
-                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement']);
+                                ->get(['user.prenom_user', 'user.nom_user', 'user.uniqid', 'etablissement.nom_etablissement', 'user.all_name'])
+                                ->toArray();;
                     }
                 }
             }
-            $total_row = $sql->count();
+            $total_row = count($sql);
             if($total_row > 0)
             {
+                $i = 0;
+                while ($i < count($sql)) {
+                    $to_remove = false;
+                    foreach (array_slice($sql, 0, $i) as $el) {
+                        if (strcmp($el->all_name, $sql[$i]->all_name) == 0) {
+                            $to_remove = true;
+                            break ;
+                        }
+                    }
+                    if ($to_remove) {
+                        array_splice($sql, $i, $i + 1);
+                    } else {
+                        $i += 1;
+                    }
+                }
                 foreach($sql as $row)
                 {
                     $output = '';
@@ -920,7 +1004,6 @@ class SearchController extends Controller
                                 </span>
                                     " . $row->nom_etablissement . " </p>
                         </div>";
-                    //$output = "<div class='round'> <a class='profile' href=" . $link . ">" . $row->prenom_user . " " . $row->nom_user . ", University: " . $row->nom_etablissement ."</a> </div>";
                     echo $output;
                 }
             }
