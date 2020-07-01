@@ -1,5 +1,15 @@
 #!/bin/bash
 
+docker-compose down -v 
+
+ if [ "$#" -eq  "0" ]
+   then
+       echo "No limit with the scrapper"
+    else
+         sed -i '' 's/reqs_authors = (grequests.get(link) for link in urls_author)/reqs_authors = (grequests.get(link) for link in urls_author[:'"$1"'])/g' scraper/scraper.py
+         echo "Scrapping with limit" $1
+fi
+
 php_my_admin=phpmyadmin
 nginx=webserver
 mysql=db
@@ -34,5 +44,13 @@ until [ "`docker inspect -f {{.State.Running}} $scrap`"=="true" ]; do
 done;
 
 docker-compose exec $scrap python ./scraper.py
+
+ if [ "$#" -eq  "0" ]
+   then
+       echo "Almost done, wait ! without"
+    else
+         sed -i '' 's/.*reqs_authors = (grequests.get(link) for link in.*)/    reqs_authors = (grequests.get(link) for link in urls_author)/g' scraper/scraper.py
+         echo "Almost done, wait !"
+fi
 
 echo "Done"
