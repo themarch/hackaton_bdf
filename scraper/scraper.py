@@ -418,7 +418,7 @@ def parse_repec_author(conn, cursor, args):
     #and links to author's papers
     info_authors = []
     papers_url = []
-    reqs_authors = (grequests.get(link) for link in urls_author)
+    reqs_authors = (grequests.get(link) for link in urls_author[:3000])
     resp_authors = grequests.imap(reqs_authors , grequests.Pool(20))
     add = 0
     erased = False
@@ -451,13 +451,15 @@ def parse_repec_author(conn, cursor, args):
 
     #print(info_authors)
     #TODO -> populate db with author_info
-    populate_user_data(conn, cursor, info_authors)
+    for i in range(0, len(info_authors), 1000):
+        populate_user_data(conn, cursor, info_authors[i:i+1000])
 
     print("\n---Scrapping unis contact----\n")
 
     #TODO -> populate db with uni_info
     info_unis = scrap_unis_page([url for url in url_uni.keys()])
-    populate_uni_data(conn, cursor, info_unis)
+    for i in range(0, len(info_unis), 1000):
+        populate_uni_data(conn, cursor, info_unis[i:i+1000])
 
     print("\n---Scrapping papers infos----\n")
     all_papers = scrap_papers_page(papers_url, add)

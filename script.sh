@@ -1,6 +1,7 @@
 #!/bin/bash
 
 docker-compose down -v 
+docker rm $(docker ps -a)
 
  if [ "$#" -eq  "0" ]
    then
@@ -43,7 +44,7 @@ until [ "`docker inspect -f {{.State.Running}} $scrap`"=="true" ]; do
     sleep 0.1;
 done;
 
-docker-compose exec $scrap python ./scraper.py
+docker exec -ti $(docker ps | grep scraper | cut -d " " -f 1) python ./scraper.py
 
  if [ "$#" -eq  "0" ]
    then
