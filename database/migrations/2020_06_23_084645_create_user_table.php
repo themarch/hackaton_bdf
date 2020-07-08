@@ -15,24 +15,24 @@ class CreateUserTable extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->increments('uniqid');
-            $table->string('link_user', '1024')->nullable();
-            $table->string('prenom_user', '1024')->nullable();
-            $table->string('surnom_user', '1024')->nullable();
-            $table->string('nom_user', '1024')->nullable();
-            $table->string('all_name', '2048')->nullable();
-            $table->string('all_name_invers', '2048')->nullable();
-            $table->string('suffix_user', '500')->nullable();
-            $table->string('repec_shortid', '255')->nullable();
-            $table->string('email_user', '500')->nullable();
-            $table->string('homepage_user', '500')->nullable();
-            $table->string('adresse_user', '500')->nullable();
-            $table->string('telephone_user', '50')->nullable();
-            $table->string('twitter_user', '500')->nullable();
-            $table->string('degree_user', '500')->nullable();
-            $table->string('id_etablissement_user1', '55')->nullable();
-            $table->string('id_etablissement_user2', '55')->nullable();
-            $table->string('id_etablissement_user3', '55')->nullable();
-            $table->string('id_etablissement_user4', '55')->nullable();
+            $table->longText('link_user')->nullable();
+            $table->longText('prenom_user')->nullable();
+            $table->longText('surnom_user')->nullable();
+            $table->longText('nom_user')->nullable();
+            $table->longText('all_name')->nullable();
+            $table->longText('all_name_invers')->nullable();
+            $table->longText('suffix_user')->nullable();
+            $table->longText('repec_shortid')->nullable();
+            $table->longText('email_user')->nullable();
+            $table->longText('homepage_user')->nullable();
+            $table->longText('adresse_user')->nullable();
+            $table->string('telephone_user')->nullable();
+            $table->string('twitter_user')->nullable();
+            $table->longText('degree_user')->nullable();
+            $table->string('id_etablissement_user1', '10')->nullable();
+            $table->string('id_etablissement_user2', '10')->nullable();
+            $table->string('id_etablissement_user3', '10')->nullable();
+            $table->string('id_etablissement_user4', '10')->nullable();
             $table->timestamps();
         });
     }

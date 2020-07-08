@@ -1,14 +1,15 @@
 #!/bin/bash
 
-docker-compose down -v 
-docker rm $(docker ps -a)
+docker-compose down -v
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 
  if [ "$#" -eq  "0" ]
    then
-       echo "No limit with the scrapper"
+        echo "No limit with the scrapper"
     else
-         sed -i '' 's/reqs_authors = (grequests.get(link) for link in urls_author)/reqs_authors = (grequests.get(link) for link in urls_author[:'"$1"'])/g' scraper/scraper.py
-         echo "Scrapping with limit" $1
+         sed -i '' 's/.*reqs_authors = (grequests.get(link) for link in.*)/    reqs_authors = (grequests.get(link) for link in urls_author[:'"$1"'])/g' scraper/scraper.py
+         echo "Scrapping with limit" $1 
 fi
 
 php_my_admin=phpmyadmin
